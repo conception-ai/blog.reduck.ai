@@ -1,0 +1,52 @@
+title: Reduck blog
+description: >-
+  What we learn building browser infrastructure for AI agents — engineering notes, product
+  decisions and lessons from making automation reliable on the open web.
+url: https://blog.reduck.ai
+app_url: https://reduck.ai
+discord_url: https://discord.gg/reduck
+lang: en
+
+collections:
+    articles:
+        output: true
+        # Never the address of a post — `_plugins/reduck_blog.rb` writes each one from its folder
+        # name. It is here because the same setting decides where an image beside a post is
+        # written, and the default puts it under an `/articles/` prefix this site has no room for.
+        permalink: /:path/
+
+# The topics a post can claim. A post names one; it cannot invent one, and the row of filters on
+# the index shows only the topics published posts actually use.
+categories:
+    - id: product
+      label: Product
+    - id: engineering
+      label: Engineering
+    - id: tutorial
+      label: Tutorial
+    - id: company
+      label: Company
+
+markdown: kramdown
+
+kramdown:
+    input: GFM
+    hard_wrap: false
+    syntax_highlighter: rouge
+
+plugins:
+    - jekyll-sitemap
+
+defaults:
+    - scope:
+          path: ""
+          type: articles
+      values:
+          layout: article
+
+exclude:
+    - Gemfile
+    - Gemfile.lock
+    - README.md
+    - vendor
+    - .github

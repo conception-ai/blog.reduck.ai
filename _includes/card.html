@@ -1,0 +1,26 @@
+{%- comment -%}
+  One post in the grid. The title is the card's only link, stretched over the whole card, so there
+  is one thing to click and one thing a screen reader announces.
+
+  The data attributes are what the filter row reads: a topic to match and a line of text to search.
+{%- endcomment -%}
+<article
+	class="card"
+	data-category="{{ include.post.category }}"
+	data-search="{{ include.post.title | append: ' ' | append: include.post.description | append: ' ' | append: include.post.author | append: ' ' | append: include.post.category_label | downcase | escape }}"
+>
+	<div class="cover-slot">
+		{% include cover.html post=include.post %}
+		<span class="category"><span class="tag neutral">{{ include.post.category_label }}</span></span>
+	</div>
+	<div class="body">
+		<div class="meta">
+			<span>{{ include.post.author }}</span>
+			<span class="separator">&middot;</span>
+			<time datetime="{{ include.post.publishedAt }}">{{ include.post.published_on }}</time>
+		</div>
+		<h3 class="title">
+			<a class="title-link" href="{{ include.post.url | relative_url }}">{{ include.post.title }}</a>
+		</h3>
+	</div>
+</article>

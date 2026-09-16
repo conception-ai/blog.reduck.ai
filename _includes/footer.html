@@ -1,0 +1,58 @@
+<footer class="site-footer">
+	<div class="top">
+		<div class="left">
+			<img class="logo" alt="Reduck" height="32" src="{{ '/assets/img/logo-full-white.png' | relative_url }}" width="173" />
+			<nav class="socials" aria-label="Social links">
+				<a aria-label="X" href="https://x.com/ReduckAI" rel="noopener noreferrer" target="_blank">
+					<img class="icon" alt="" height="16" src="{{ '/assets/img/brands/x.svg' | relative_url }}" width="16" />
+				</a>
+				<a aria-label="LinkedIn" href="https://www.linkedin.com/company/reduck-ai" rel="noopener noreferrer" target="_blank">
+					<img class="icon" alt="" height="16" src="{{ '/assets/img/brands/linkedin.svg' | relative_url }}" width="16" />
+				</a>
+				<a aria-label="YouTube" href="https://www.youtube.com/@ReduckAI" rel="noopener noreferrer" target="_blank">
+					{% include icon.html name="youtube" %}
+				</a>
+				<a class="contact" href="https://form.reduck.ai" rel="noopener noreferrer" target="_blank">Contact us</a>
+			</nav>
+		</div>
+
+		<div class="discord">
+			<a class="btn large btn-secondary" href="{{ site.discord_url }}" rel="noopener noreferrer" target="_blank">
+				{% include icon.html name="discord" %}
+				Join our Discord
+			</a>
+			<span>Get help, share feedback, meet the team</span>
+		</div>
+
+		<div class="right">
+			<div class="group">
+				<h4>Product</h4>
+				<ul>
+					<li><a href="{{ site.app_url }}/use-cases">Use cases</a></li>
+					<li><a href="{{ site.app_url }}/explore/scripts">Scripts</a></li>
+					<li><a href="{{ site.app_url }}/pricing">Pricing</a></li>
+					<li><a href="https://docs.reduck.ai">Docs</a></li>
+				</ul>
+			</div>
+			<div class="group">
+				<h4>Company</h4>
+				<ul>
+					<li><a href="https://blog.reduck.ai">Blog</a></li>
+					<li><a href="https://trust.reduck.ai/" rel="noopener noreferrer" target="_blank">Trust Center</a></li>
+					<li><a href="https://jobs.stationf.co/companies/conception-dev" rel="noopener noreferrer" target="_blank">Jobs</a></li>
+				</ul>
+			</div>
+			<div class="group">
+				<h4>Legal</h4>
+				<ul>
+					<li><a href="{{ site.app_url }}/terms-of-service">Terms of service</a></li>
+					<li><a href="{{ site.app_url }}/privacy-policy">Privacy policy</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="bottom">
+		<p class="rights">&copy; {{ site.time | date: "%Y" }} Conception AI. All rights reserved.</p>
+	</div>
+</footer>

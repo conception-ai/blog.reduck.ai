@@ -1,0 +1,218 @@
+/* The palette, the type scale and the base rules the reduck.ai app sets, so a page here and a
+   page there read the same. Kept as one file per site rather than shared over a CDN: a site that
+   builds on GitHub Pages has nothing to install, and a stylesheet it fetches from elsewhere is a
+   second thing that can be down. */
+
+:root {
+	/* Green */
+	--color-green-50: #f0fdf4;
+	--color-green-100: #dcfce7;
+	--color-green-200: #bbf7d0;
+	--color-green-300: #86efac;
+	--color-green-400: #4ade80;
+	--color-green-500: #22c55e;
+	--color-green-600: #16a34a;
+	--color-green-700: #15803d;
+	--color-green-800: #166534;
+	--color-green-900: #14532d;
+
+	/* Pink */
+	--color-pink-300: #f9a8d4;
+	--color-pink-400: #f472b6;
+	--color-pink-500: #ec4899;
+
+	/* Blue */
+	--color-blue-50: #eff6ff;
+	--color-blue-100: #dbeafe;
+	--color-blue-200: #bfdbfe;
+	--color-blue-300: #93c5fd;
+	--color-blue-400: #60a5fa;
+	--color-blue-500: #3b82f6;
+	--color-blue-600: #2563eb;
+	--color-blue-700: #1d4ed8;
+	--color-blue-800: #1e40af;
+	--color-blue-900: #1e3a8a;
+
+	/* Purple */
+	--color-purple-300: #d8b4fe;
+	--color-purple-400: #c084fc;
+	--color-purple-500: #a855f7;
+
+	/* Orange */
+	--color-orange-50: #fff7ed;
+	--color-orange-100: #ffedd5;
+	--color-orange-200: #fed7aa;
+	--color-orange-300: #fdba74;
+	--color-orange-400: #fb923c;
+	--color-orange-500: #f97316;
+	--color-orange-600: #ea580c;
+	--color-orange-700: #c2410c;
+	--color-orange-800: #9a3412;
+	--color-orange-900: #7c2d12;
+
+	/* Red */
+	--color-red-300: #fca5a5;
+	--color-red-400: #f87171;
+	--color-red-500: #ef4444;
+
+	/* Yellow */
+	--color-yellow-300: #fcd34d;
+	--color-yellow-400: #fbbf24;
+	--color-yellow-500: #f59e0b;
+
+	/* Neutrals */
+	--color-grey-0: #fff;
+	--color-grey-50: #f9fafb;
+	--color-grey-100: #f3f4f6;
+	--color-grey-200: #e5e7eb;
+	--color-grey-300: #d1d5db;
+	--color-grey-400: #9ca3af;
+	--color-grey-500: #6b7280;
+	--color-grey-600: #4b5563;
+	--color-grey-700: #2c3644;
+	--color-grey-800: #1f2937;
+	--color-grey-900: #111827;
+
+	/* Tinted colours, opaque, mixed against the default background. */
+	--color-red-500-translucent-18: color-mix(in srgb, var(--color-red-500) 18%, var(--color-grey-900));
+	--color-red-500-translucent-28: color-mix(in srgb, var(--color-red-500) 28%, var(--color-grey-900));
+	--color-yellow-500-translucent-18: color-mix(in srgb, var(--color-yellow-500) 18%, var(--color-grey-900));
+	--color-yellow-500-translucent-28: color-mix(in srgb, var(--color-yellow-500) 28%, var(--color-grey-900));
+	--color-green-500-translucent-18: color-mix(in srgb, var(--color-green-500) 18%, var(--color-grey-900));
+	--color-green-500-translucent-28: color-mix(in srgb, var(--color-green-500) 28%, var(--color-grey-900));
+	--color-blue-500-translucent-18: color-mix(in srgb, var(--color-blue-500) 18%, var(--color-grey-900));
+	--color-blue-500-translucent-28: color-mix(in srgb, var(--color-blue-500) 28%, var(--color-grey-900));
+	--color-orange-500-translucent-18: color-mix(in srgb, var(--color-orange-500) 18%, var(--color-grey-900));
+
+	--text-color: var(--color-grey-50);
+	--background-color: var(--color-grey-900);
+
+	--font-size-caption: 10px;
+	--font-size-small: 12px;
+	--font-size-body: 14px;
+	--font-size-medium: 16px;
+	--font-size-large: 18px;
+	--font-size-title-small: 22px;
+	--font-size-title-medium: 32px;
+	--font-size-title-large: 48px;
+
+	--font-mono: "SF Mono", "Cascadia Code", "Fira Code", "Menlo", "Consolas", monospace;
+
+	--z-background: -1;
+	--z-foreground: 1;
+	--z-header: 100;
+	--z-dropdown: 1000;
+	--z-modal: 1700;
+}
+
+@media (width <= 640px) {
+	:root {
+		--font-size-title-small: 20px;
+		--font-size-title-medium: 24px;
+		--font-size-title-large: 32px;
+	}
+}
+
+* {
+	box-sizing: border-box;
+	scrollbar-color: var(--color-grey-600) transparent;
+	scrollbar-width: thin;
+}
+
+html {
+	color-scheme: dark;
+	overflow: hidden;
+}
+
+body,
+html {
+	display: flex;
+	height: 100%;
+	margin: 0;
+	width: 100%;
+}
+
+body {
+	background: var(--background-color);
+	color: var(--text-color);
+	flex-direction: column;
+	font-family: "Inter", sans-serif;
+	font-optical-sizing: auto;
+	font-size: var(--font-size-body);
+	-webkit-font-smoothing: antialiased;
+}
+
+main {
+	flex: 1;
+	overflow: auto;
+	scroll-behavior: smooth;
+}
+
+p {
+	margin: 0;
+}
+
+h1 {
+	font-weight: 600;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 500;
+}
+
+a {
+	color: inherit;
+}
+
+button {
+	background: none;
+	border: 0;
+	color: inherit;
+	cursor: pointer;
+	font: inherit;
+	text-align: left;
+}
+
+code,
+input,
+textarea {
+	font: inherit;
+}
+
+b,
+strong {
+	font-weight: 600;
+}
+
+*:focus-visible {
+	box-shadow: 0 0 0 2px var(--color-grey-50);
+	outline: none;
+	transition: box-shadow 200ms;
+}
+
+*::-webkit-scrollbar {
+	height: 6px;
+	width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+	background: var(--color-grey-600);
+	border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+	background: var(--color-grey-500);
+}
+
+option {
+	background: var(--background-color);
+	color: var(--text-color);
+}

@@ -1,0 +1,22 @@
+{%- comment -%}
+  Where a post goes when a reader passes it on. The link is read from the page rather than written
+  here, so a post opened under any host shares the address the reader is actually on.
+{%- endcomment -%}
+<dialog class="share" aria-label="Share this article" data-share-dialog>
+	<h2>Share</h2>
+	<p>{{ page.title }}</p>
+	<div class="targets">
+		<a class="btn medium btn-secondary" data-share-target="x" href="#" rel="noopener noreferrer" target="_blank">
+			<img class="icon" alt="" height="14" src="{{ '/assets/img/brands/x.svg' | relative_url }}" width="14" />
+			X
+		</a>
+		<a class="btn medium btn-secondary" data-share-target="linkedin" href="#" rel="noopener noreferrer" target="_blank">
+			<img class="icon" alt="" height="14" src="{{ '/assets/img/brands/linkedin.svg' | relative_url }}" width="14" />
+			LinkedIn
+		</a>
+	</div>
+	<div class="copy-row">
+		<input aria-label="Article link" data-share-url readonly type="text" />
+		<button class="btn medium btn-primary" data-share-copy type="button">Copy</button>
+	</div>
+</dialog>

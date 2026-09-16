@@ -1,0 +1,48 @@
+---
+layout: default
+---
+
+<main class="article">
+	<article class="content">
+		{%- if page.hero_url -%}
+			<div class="hero-cover">{% include cover.html post=page %}</div>
+		{%- endif -%}
+
+		<div class="meta">
+			<span class="label">Written by</span>
+			<span class="label">Published on</span>
+			<span class="label">Category</span>
+			<span class="share">
+				<button class="btn medium btn-secondary" data-share type="button">
+					{% include icon.html name="share" %}
+					Share
+				</button>
+			</span>
+			<span class="value">{{ page.author }}</span>
+			<time class="value" datetime="{{ page.publishedAt }}">{{ page.published_on }}</time>
+			<span class="category"><span class="tag neutral">{{ page.category_label }}</span></span>
+		</div>
+
+		<h1 class="title">{{ page.title }}</h1>
+
+		<div class="prose">{{ content }}</div>
+	</article>
+	{% include footer.html %}
+</main>
+
+{% include share.html %}
+
+{%- unless page.draft -%}
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "BlogPosting",
+			"headline": {{ page.title | jsonify }},
+			"description": {{ page.description | jsonify }},
+			"datePublished": {{ page.publishedAt | jsonify }},
+			"author": { "@type": "Organization", "name": "Reduck" },
+			"url": {{ page.url | absolute_url | jsonify }}
+			{%- if page.hero_url -%}, "image": {{ page.hero_url | absolute_url | jsonify }}{%- endif -%}
+		}
+	</script>
+{%- endunless -%}

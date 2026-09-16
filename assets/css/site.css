@@ -1,0 +1,745 @@
+/* The chrome both reduck.ai subdomains wear: the site nav, the footer, and the few design-system
+   pieces a static page needs — the button and link types, the tag, the search field, the code
+   frame. Each is the app's component restated as plain CSS; a class name here is the `type` or
+   `model` prop there. */
+
+/* ---------------------------------------------------------------- buttons and links */
+
+.btn {
+	align-items: center;
+	cursor: pointer;
+	display: inline-flex;
+	font-weight: 500;
+	gap: 0.4em;
+	justify-content: center;
+	max-height: var(--button-height);
+	min-height: var(--button-height);
+	text-align: center;
+	text-decoration: none;
+	transition:
+		background 200ms,
+		border-color 200ms,
+		color 200ms;
+	white-space: nowrap;
+	width: fit-content;
+}
+
+.btn.small {
+	--button-height: 28px;
+
+	border-radius: 8px;
+	font-size: var(--font-size-small);
+	padding: 0 8px;
+}
+
+.btn.medium {
+	--button-height: 32px;
+
+	border-radius: 10px;
+	font-size: var(--font-size-body);
+	padding: 0 12px;
+}
+
+.btn.large {
+	--button-height: 40px;
+
+	border-radius: 12px;
+	font-size: var(--font-size-body);
+	padding: 0 16px;
+}
+
+/* An icon-only button is square rather than a short pill. */
+.btn.icon-only {
+	min-width: var(--button-height);
+	padding: 0;
+}
+
+.btn-primary {
+	background: var(--color-orange-400);
+	color: var(--color-grey-900);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+	background: var(--color-orange-500);
+}
+
+.btn-primary:active {
+	background: var(--color-orange-600);
+}
+
+.btn-secondary {
+	background: var(--color-grey-900);
+	border: 1px solid var(--color-grey-600);
+	color: var(--text-color);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+	background: var(--color-grey-700);
+	border-color: var(--color-grey-500);
+}
+
+.btn-secondary:active {
+	background: var(--color-grey-600);
+	border-color: var(--color-grey-500);
+}
+
+.btn-ghost {
+	color: var(--text-color);
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+	background: var(--color-grey-700);
+}
+
+.btn-ghost:active,
+.btn-ghost.toggled {
+	background: var(--color-grey-600);
+}
+
+.btn .icon {
+	flex-shrink: 0;
+	height: 1em;
+	width: 1em;
+}
+
+/* The nav row of a side panel: full width, left aligned, quiet until it is the open page. */
+.nav-link {
+	align-items: center;
+	border-radius: 6px;
+	color: var(--color-grey-400);
+	display: flex;
+	font-size: var(--font-size-body);
+	font-weight: 300;
+	gap: 0.75em;
+	min-height: 36px;
+	padding: 0 12px;
+	text-decoration: none;
+	transition:
+		background 200ms,
+		color 200ms;
+	width: 100%;
+}
+
+.nav-link:hover {
+	background: var(--color-grey-700);
+	color: var(--color-grey-50);
+}
+
+.nav-link.toggled {
+	background: var(--color-grey-600);
+	color: var(--color-grey-50);
+}
+
+.tag {
+	align-items: center;
+	border-radius: 20px;
+	display: inline-flex;
+	font-size: 0.9em;
+	font-weight: 500;
+	gap: 4px;
+	justify-content: center;
+	line-height: 1.5em;
+	padding: 2px 8px;
+	white-space: nowrap;
+	width: fit-content;
+}
+
+.tag.neutral {
+	background: var(--color-grey-700);
+	color: var(--color-grey-0);
+}
+
+/* ---------------------------------------------------------------- the search field */
+
+.field {
+	align-items: center;
+	display: flex;
+	position: relative;
+}
+
+.field input {
+	background: var(--color-grey-900);
+	border: 1px solid var(--color-grey-600);
+	color: var(--text-color);
+	font-size: inherit;
+	height: 100%;
+	padding-left: 2em;
+	width: 100%;
+}
+
+.field input::placeholder {
+	color: var(--color-grey-400);
+}
+
+.field input:hover {
+	border-color: var(--color-grey-500);
+}
+
+.field input:focus {
+	background: var(--color-grey-800);
+}
+
+.field .field-icon {
+	color: var(--color-grey-500);
+	font-size: 0.875em;
+	height: 1em;
+	left: 0.875em;
+	pointer-events: none;
+	position: absolute;
+	width: 1em;
+	z-index: var(--z-foreground);
+}
+
+.field.medium {
+	font-size: var(--font-size-body);
+	height: 32px;
+	min-height: 32px;
+}
+
+.field.medium input {
+	border-radius: 10px;
+}
+
+.field.large {
+	font-size: var(--font-size-medium);
+	height: 40px;
+	min-height: 40px;
+}
+
+.field.large input {
+	border-radius: 12px;
+}
+
+/* ---------------------------------------------------------------- the site header */
+
+.site-header {
+	align-items: center;
+	background: var(--color-grey-800);
+	border-bottom: 1px solid var(--color-grey-700);
+	display: flex;
+	flex-shrink: 0;
+	gap: 10px;
+	min-height: 65px;
+	padding: 0 32px;
+	position: relative;
+	width: 100%;
+	z-index: var(--z-header);
+}
+
+.site-header .lockup {
+	align-items: center;
+	border-radius: 4px;
+	display: flex;
+	flex-shrink: 0;
+	text-decoration: none;
+}
+
+.site-header .lockup img {
+	display: block;
+	height: auto;
+	width: 130px;
+}
+
+.site-header nav {
+	display: flex;
+}
+
+.site-header nav.primary {
+	margin: 0 auto;
+}
+
+.site-header ul {
+	align-items: center;
+	display: flex;
+	gap: 10px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.site-header .burger {
+	display: none;
+	margin-left: auto;
+}
+
+/* The mobile sheet the burger opens: the same links, stacked, over a scrim. */
+.mobile-menu {
+	background: var(--color-grey-800);
+	border-bottom: 1px solid var(--color-grey-700);
+	display: none;
+	flex-direction: column;
+	gap: 16px;
+	inset: 65px 0 auto;
+	padding: 16px;
+	position: fixed;
+	z-index: var(--z-dropdown);
+}
+
+.mobile-menu.open {
+	display: flex;
+}
+
+.mobile-menu .cta {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.mobile-menu .cta .btn {
+	width: 100%;
+}
+
+.mobile-menu .links {
+	display: flex;
+	flex-direction: column;
+}
+
+.mobile-menu .links .nav-link {
+	min-height: 48px;
+}
+
+.mobile-menu hr {
+	border: 0;
+	border-top: 1px solid var(--color-grey-700);
+	margin: 0;
+	width: 100%;
+}
+
+@media (width <= 767px) {
+	.site-header {
+		padding: 0 16px;
+	}
+
+	.site-header nav {
+		display: none;
+	}
+
+	.site-header .burger {
+		display: inline-flex;
+	}
+}
+
+/* ---------------------------------------------------------------- the footer */
+
+.site-footer {
+	background-color: var(--color-grey-800);
+	border-top: 1px solid var(--color-grey-700);
+	color: var(--color-grey-400);
+	padding: 48px 64px 40px;
+}
+
+.site-footer .top,
+.site-footer .bottom {
+	margin: 0 auto;
+	max-width: 1200px;
+}
+
+.site-footer .top {
+	align-items: flex-start;
+	display: flex;
+	justify-content: space-between;
+}
+
+.site-footer .left {
+	align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.site-footer .left img.logo {
+	height: 32px;
+	object-fit: contain;
+	width: auto;
+}
+
+.site-footer .socials {
+	align-items: center;
+	display: flex;
+	gap: 16px;
+}
+
+.site-footer .socials a {
+	align-items: center;
+	color: var(--color-grey-400);
+	display: inline-flex;
+	font-size: var(--font-size-medium);
+	text-decoration: none;
+	transition: color 200ms;
+}
+
+.site-footer .socials a:hover {
+	color: var(--color-grey-50);
+}
+
+.site-footer .socials .icon {
+	height: 1em;
+	width: 1em;
+}
+
+.site-footer .socials a.contact {
+	font-size: var(--font-size-small);
+	font-weight: 500;
+}
+
+.site-footer .discord {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.site-footer .discord span {
+	color: var(--color-grey-400);
+	font-size: var(--font-size-small);
+}
+
+.site-footer .right {
+	align-items: flex-start;
+	display: flex;
+	gap: 48px;
+}
+
+.site-footer .group {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.site-footer .group h4 {
+	color: var(--color-grey-50);
+	font-size: var(--font-size-medium);
+	font-weight: 600;
+	margin: 0;
+}
+
+.site-footer .group ul {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.site-footer .group a {
+	color: var(--color-grey-400);
+	font-size: var(--font-size-body);
+	font-weight: 500;
+	text-decoration: none;
+	transition: color 200ms;
+
+	/* "Trust Center" and "Terms of service" otherwise break across lines as soon as the columns
+	   tighten, which reads as a layout fault rather than as a choice. */
+	white-space: nowrap;
+}
+
+.site-footer .group a:hover {
+	color: var(--color-grey-50);
+}
+
+.site-footer .bottom {
+	align-items: center;
+	border-top: 1px solid var(--color-grey-700);
+	display: flex;
+	justify-content: space-between;
+	margin-top: 32px;
+	padding-top: 24px;
+}
+
+.site-footer .rights {
+	color: var(--color-grey-500);
+	font-size: var(--font-size-caption);
+}
+
+/* The single row needs about 795px for its three blocks plus 128px of padding, so it only fits
+   above about 1050px. Stacking later leaves a band where the columns are squeezed together. */
+@media (width <= 1080px) {
+	.site-footer {
+		padding: 32px 24px;
+	}
+
+	.site-footer .top {
+		align-items: center;
+		flex-direction: column;
+		gap: 48px;
+	}
+
+	.site-footer .left {
+		align-items: center;
+		order: 1;
+	}
+
+	.site-footer .right {
+		flex-wrap: wrap;
+		gap: 32px 48px;
+		justify-content: center;
+		width: 100%;
+	}
+
+	.site-footer .group {
+		align-items: center;
+		text-align: center;
+	}
+
+	.site-footer .bottom {
+		flex-direction: column;
+		gap: 16px;
+	}
+}
+
+/* ---------------------------------------------------------------- code */
+
+.code-block {
+	background: var(--color-grey-800);
+	border: 1px solid var(--color-grey-700);
+	border-radius: 8px;
+	display: flex;
+	margin: 0 0 20px;
+	overflow: hidden;
+	padding: 16px 42px 16px 24px;
+	position: relative;
+}
+
+.code-block pre {
+	color: var(--color-grey-100);
+	flex: 1;
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	line-height: 1.6;
+	margin: 0;
+	min-width: 0;
+	overflow: auto;
+	tab-size: 4;
+	white-space: pre;
+}
+
+.code-block .copy {
+	align-items: center;
+	border-radius: 8px;
+	color: var(--text-color);
+	display: inline-flex;
+	height: 28px;
+	justify-content: center;
+	position: absolute;
+	right: 8px;
+	top: 12px;
+	transition: background 200ms;
+	width: 28px;
+}
+
+.code-block .copy:hover {
+	background: var(--color-grey-700);
+}
+
+.code-block .copy .icon {
+	height: 12px;
+	width: 12px;
+}
+
+/* Rouge's token classes, mapped onto the colours `$lib/components/system/CodeBlock.svelte`
+   gives Prism's. Only the tokens the four highlighted languages emit are named. */
+.code-block .c,
+.code-block .c1,
+.code-block .cm,
+.code-block .cd,
+.code-block .cp {
+	color: var(--color-grey-400);
+}
+
+.code-block .s,
+.code-block .s1,
+.code-block .s2,
+.code-block .se,
+.code-block .sb,
+.code-block .sx,
+.code-block .dl,
+.code-block .sa {
+	color: var(--color-blue-300);
+}
+
+.code-block .k,
+.code-block .kd,
+.code-block .kn,
+.code-block .kr,
+.code-block .kc,
+.code-block .kt,
+.code-block .kp,
+.code-block .nb,
+.code-block .bp {
+	color: var(--color-purple-300);
+}
+
+.code-block .nf,
+.code-block .nc,
+.code-block .nx,
+.code-block .py,
+.code-block .na,
+.code-block .nt {
+	color: var(--color-green-300);
+}
+
+.code-block .m,
+.code-block .mi,
+.code-block .mf,
+.code-block .mh,
+.code-block .nv,
+.code-block .vg,
+.code-block .no {
+	color: var(--color-orange-300);
+}
+
+.code-block .p,
+.code-block .o,
+.code-block .ow {
+	color: var(--color-grey-300);
+}
+
+/* ---------------------------------------------------------------- callouts */
+
+.banner {
+	border-radius: 8px;
+	display: flex;
+	gap: 12px;
+	margin: 0 0 20px;
+	padding: 8px 12px;
+	text-align: left;
+	width: 100%;
+}
+
+.banner .banner-icon {
+	flex-shrink: 0;
+	height: 16px;
+	margin-top: 4px;
+	width: 16px;
+}
+
+.banner .banner-content {
+	color: var(--color-grey-50);
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	font-size: var(--font-size-body);
+	gap: 4px;
+	line-height: 1.5;
+	min-width: 0;
+}
+
+.banner .banner-content p {
+	margin: 0;
+}
+
+.banner .banner-content p + p {
+	margin-top: 12px;
+}
+
+.banner .banner-content a {
+	color: inherit;
+	font-weight: 500;
+	text-decoration: underline;
+}
+
+.banner .banner-content code {
+	background: rgb(0 0 0 / 0.25);
+	border-radius: 4px;
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	padding: 2px 6px;
+}
+
+.banner.info {
+	background: var(--color-blue-500-translucent-18);
+}
+
+.banner.info .banner-icon {
+	color: var(--color-blue-400);
+}
+
+.banner.success {
+	background: var(--color-green-500-translucent-18);
+}
+
+.banner.success .banner-icon {
+	color: var(--color-green-400);
+}
+
+.banner.warning {
+	background: var(--color-yellow-500-translucent-18);
+}
+
+.banner.warning .banner-icon {
+	color: var(--color-yellow-400);
+}
+
+.banner.danger {
+	background: var(--color-red-500-translucent-18);
+}
+
+.banner.danger .banner-icon {
+	color: var(--color-red-400);
+}
+
+/* ---------------------------------------------------------------- numbered steps */
+
+.steps {
+	counter-reset: step;
+	display: flex;
+	flex-direction: column;
+	list-style: none;
+	margin: 0 0 20px;
+	padding: 0;
+}
+
+.steps > li {
+	color: var(--color-grey-200);
+	counter-increment: step;
+	line-height: 1.6;
+	padding: 0.5lh 0 0.5lh 1.5lh;
+	position: relative;
+}
+
+.steps > li::before {
+	align-items: center;
+	background: var(--color-grey-600);
+	border-radius: 50%;
+	color: var(--color-grey-50);
+	content: counter(step);
+	display: flex;
+	flex-shrink: 0;
+	font-weight: 600;
+	height: 1lh;
+	justify-content: center;
+	left: 0;
+	position: absolute;
+	top: 0.5lh;
+	width: 1lh;
+	z-index: var(--z-foreground);
+}
+
+.steps > li:not(:last-child)::after {
+	background: var(--color-grey-600);
+	bottom: -0.5lh;
+	content: "";
+	left: 0.5lh;
+	position: absolute;
+	top: 0.5lh;
+	width: 1px;
+}
+
+.steps > li a {
+	color: var(--color-grey-50);
+	font-weight: 500;
+	text-decoration: underline;
+}
+
+.steps > li code {
+	background: var(--color-grey-800);
+	border-radius: 4px;
+	color: var(--color-grey-300);
+	font-family: var(--font-mono);
+	font-size: var(--font-size-body);
+	padding: 2px 6px;
+}

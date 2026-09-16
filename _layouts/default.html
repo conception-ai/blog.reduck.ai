@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'en' }}" data-baseurl="{{ site.baseurl }}">
+	<head>
+		{% include head.html %}
+	</head>
+	<body>
+		{% include site-nav.html %}
+		{{ content }}
+		<script src="{{ '/assets/js/site.js' | relative_url }}"></script>
+		<script src="{{ '/assets/js/blog.js' | relative_url }}"></script>
+	</body>
+</html>

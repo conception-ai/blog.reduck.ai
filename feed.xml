@@ -1,0 +1,30 @@
+---
+layout: null
+sitemap: false
+---
+<?xml version="1.0" encoding="utf-8"?>
+{%- comment -%}
+  Written here rather than left to jekyll-feed: the posts are a collection of their own, and the
+  plugin would publish an empty feed for `_posts` at the same address.
+{%- endcomment -%}
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title>{{ site.title }}</title>
+	<subtitle>{{ site.description | strip_newlines }}</subtitle>
+	<id>{{ '/' | absolute_url }}</id>
+	<link href="{{ '/feed.xml' | absolute_url }}" rel="self" type="application/atom+xml" />
+	<link href="{{ '/' | absolute_url }}" rel="alternate" type="text/html" />
+	<updated>{{ site.time | date_to_xmlschema }}</updated>
+	<author><name>Reduck</name></author>
+	{%- for post in site.data.articles %}
+	<entry>
+		<title>{{ post.title | xml_escape }}</title>
+		<id>{{ post.url | absolute_url }}</id>
+		<link href="{{ post.url | absolute_url }}" rel="alternate" type="text/html" />
+		<published>{{ post.publishedAt | date_to_xmlschema }}</published>
+		<updated>{{ post.publishedAt | date_to_xmlschema }}</updated>
+		<category term="{{ post.category }}" />
+		<author><name>{{ post.author | xml_escape }}</name></author>
+		<summary>{{ post.description | xml_escape }}</summary>
+	</entry>
+	{%- endfor %}
+</feed>

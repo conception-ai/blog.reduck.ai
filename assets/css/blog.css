@@ -1,0 +1,783 @@
+/* The blog: an index that leads with the latest post, and the article page under it. Restated
+   from `app/src/routes/(public)/blog` in the app repository, so a post reads the same on either. */
+
+/* ---------------------------------------------------------------- the index */
+
+main.index {
+	background:
+		conic-gradient(from 90deg at 0.5px 0.5px, transparent 25%, var(--color-grey-800) 0),
+		var(--color-grey-900);
+	background-size:
+		24px 24px,
+		100% 100%;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	overflow: auto;
+}
+
+.index .content {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	margin: 0 auto;
+	max-width: 1200px;
+	padding: 64px 32px 80px;
+	width: 100%;
+}
+
+.hero {
+	align-items: center;
+	display: grid;
+	gap: 40px;
+	grid-template-columns: 1.4fr 1fr;
+	margin-bottom: 60px;
+}
+
+.hero .hero-cover {
+	display: block;
+	position: relative;
+	text-decoration: none;
+}
+
+/* "Read more" scrim over the cover, matching the cards. */
+.hero .hero-cover::after {
+	align-items: center;
+	background: rgb(0 0 0 / 0.6);
+	border-radius: 12px;
+	color: var(--color-grey-0);
+	content: "Read more";
+	display: flex;
+	font-size: var(--font-size-medium);
+	font-weight: 500;
+	inset: 0;
+	justify-content: center;
+	opacity: 0;
+	position: absolute;
+	transition: opacity 0.2s;
+}
+
+.hero .hero-cover:hover::after {
+	opacity: 1;
+}
+
+.hero .hero-info {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+/* The title and its excerpt read as one block, closer to each other than to the button. */
+.hero .hero-text {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+/* fit-content so the tag keeps its own width instead of stretching down the flex column. */
+.hero .hero-category {
+	width: fit-content;
+}
+
+.hero .hero-title {
+	color: var(--color-grey-0);
+	font-size: var(--font-size-title-medium);
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	line-height: 1.15;
+	margin: 0;
+}
+
+.hero .hero-excerpt {
+	-webkit-box-orient: vertical;
+	color: var(--color-grey-400);
+	display: -webkit-box;
+	font-size: var(--font-size-body);
+	-webkit-line-clamp: 3;
+	line-clamp: 3;
+	line-height: 1.6;
+	margin: 0;
+	overflow: hidden;
+	overflow-wrap: anywhere;
+}
+
+.filters {
+	align-items: flex-end;
+	display: flex;
+	gap: 16px;
+	justify-content: space-between;
+	margin-bottom: 32px;
+}
+
+.filters .search-group {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 12px;
+	min-width: 0;
+}
+
+.filters .filters-label {
+	color: var(--color-grey-0);
+	font-size: var(--font-size-title-small);
+	font-weight: 600;
+}
+
+.filters .field {
+	width: 100%;
+}
+
+.filters .select {
+	align-items: center;
+	display: flex;
+	flex-shrink: 0;
+	position: relative;
+}
+
+.filters .select select {
+	appearance: none;
+	background: var(--color-grey-900);
+	border: 1px solid var(--color-grey-600);
+	border-radius: 10px;
+	color: var(--text-color);
+	font-size: var(--font-size-body);
+	height: 32px;
+	padding: 0 32px 0 2em;
+}
+
+.filters .select select:hover {
+	border-color: var(--color-grey-500);
+}
+
+.filters .select .field-icon {
+	color: var(--color-grey-500);
+	height: 14px;
+	left: 0.875em;
+	pointer-events: none;
+	position: absolute;
+	width: 14px;
+	z-index: var(--z-foreground);
+}
+
+.filters .select .chevron {
+	color: var(--color-grey-500);
+	height: 12px;
+	pointer-events: none;
+	position: absolute;
+	right: 10px;
+	rotate: 90deg;
+	width: 12px;
+}
+
+.grid {
+	display: grid;
+	gap: 24px;
+	grid-template-columns: repeat(3, 1fr);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.grid li[hidden] {
+	display: none;
+}
+
+/* Shown in place of the grid when no post answers the query — a blog with nothing to say reads as
+   a fault otherwise. */
+.no-results {
+	align-items: center;
+	border: 1px dashed var(--color-grey-700);
+	border-radius: 12px;
+	color: var(--color-grey-400);
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 64px 24px;
+	text-align: center;
+}
+
+.no-results[hidden] {
+	display: none;
+}
+
+.no-results .icon {
+	color: var(--color-grey-600);
+	height: 32px;
+	width: 32px;
+}
+
+.no-results h2 {
+	color: var(--color-grey-50);
+	font-size: var(--font-size-large);
+	margin: 8px 0 0;
+}
+
+/* ---------------------------------------------------------------- a card */
+
+.card {
+	position: relative;
+}
+
+.card .cover-slot {
+	position: relative;
+}
+
+/* "Read more" scrim, revealed on hover over the whole card. */
+.card .cover-slot::after {
+	align-items: center;
+	background: rgb(0 0 0 / 0.6);
+	border-radius: 12px;
+	color: var(--color-grey-0);
+	content: "Read more";
+	display: flex;
+	font-size: var(--font-size-medium);
+	font-weight: 500;
+	inset: 0;
+	justify-content: center;
+	opacity: 0;
+	position: absolute;
+	transition: opacity 0.2s;
+	z-index: 2;
+}
+
+.card .category {
+	position: absolute;
+	right: 12px;
+	top: 12px;
+	z-index: 3;
+}
+
+.card .body {
+	padding: 12px 8px 0;
+}
+
+.card .meta {
+	align-items: center;
+	color: var(--color-grey-400);
+	display: flex;
+	font-size: var(--font-size-small);
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.card .meta .separator {
+	color: var(--color-grey-600);
+}
+
+.card .title {
+	color: var(--color-grey-200);
+	font-size: var(--font-size-medium);
+	font-weight: 500;
+	line-height: 1.4;
+	margin: 0;
+	transition: color 0.2s;
+}
+
+.card .title::after {
+	content: " \203A";
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+/* The title is the card's only link; ::after stretches it over the whole card. */
+.card .title-link {
+	color: inherit;
+	text-decoration: none;
+}
+
+.card .title-link::after {
+	content: "";
+	inset: 0;
+	position: absolute;
+	z-index: 4;
+}
+
+.card:hover .cover-slot::after {
+	opacity: 1;
+}
+
+.card:hover .title {
+	color: var(--color-grey-50);
+}
+
+.card:hover .title::after {
+	opacity: 1;
+}
+
+/* ---------------------------------------------------------------- a cover */
+
+.cover {
+	align-items: center;
+	aspect-ratio: 16 / 9;
+	background: linear-gradient(135deg, var(--color-grey-800) 0%, var(--color-grey-900) 100%);
+	border: 1px solid var(--color-grey-700);
+	border-radius: 12px;
+	display: flex;
+	justify-content: center;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+.cover.wide {
+	aspect-ratio: 16 / 10;
+}
+
+/* Warms the empty gradient. Suppressed behind an image, which needs no help. */
+.cover::before {
+	background: radial-gradient(
+		circle at 70% 30%,
+		var(--color-orange-500-translucent-18),
+		transparent 60%
+	);
+	content: "";
+	inset: 0;
+	position: absolute;
+}
+
+.cover.has-image::before {
+	display: none;
+}
+
+.cover img {
+	height: 100%;
+	object-fit: cover;
+	width: 100%;
+}
+
+.cover .fallback-title {
+	color: var(--color-grey-0);
+	font-size: var(--font-size-title-small);
+	font-weight: 600;
+	line-height: 1.2;
+	padding: 24px;
+	position: relative;
+	z-index: var(--z-foreground);
+}
+
+/* ---------------------------------------------------------------- the article */
+
+main.article {
+	background: var(--color-grey-900);
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	overflow: auto;
+	position: relative;
+}
+
+/* The grid dresses the head of the article — behind the cover and the byline — and fades before
+   the prose starts, where a texture under the text would fight the reading. */
+main.article::before {
+	background: conic-gradient(from 90deg at 0.5px 0.5px, transparent 25%, var(--color-grey-800) 0);
+	background-size: 24px 24px;
+	content: "";
+
+	/* Capped at the visible height so a short post gains no scroll of its own from the band. */
+	height: min(900px, 100%);
+	inset: 0 0 auto;
+	mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+	pointer-events: none;
+	position: absolute;
+	z-index: 0;
+}
+
+main.article > * {
+	position: relative;
+	z-index: var(--z-foreground);
+}
+
+.article .content {
+	margin: 0 auto;
+	max-width: 800px;
+	padding: 64px 32px 80px;
+	width: 100%;
+}
+
+.article .hero-cover {
+	margin-bottom: 24px;
+}
+
+.article .meta {
+	align-items: baseline;
+	display: grid;
+	gap: 8px 24px;
+	grid-template-columns: auto auto auto 1fr;
+	margin-bottom: 60px;
+}
+
+.article .meta .label {
+	color: var(--color-grey-500);
+	font-size: var(--font-size-caption);
+	font-weight: 500;
+	grid-row: 1;
+	text-transform: uppercase;
+}
+
+.article .meta .value {
+	color: var(--color-grey-300);
+	font-size: var(--font-size-body);
+	grid-row: 2;
+}
+
+.article .meta .category {
+	grid-row: 2;
+}
+
+.article .meta .share {
+	grid-row: 1 / 3;
+	place-self: center end;
+}
+
+.article .title {
+	color: var(--color-grey-0);
+	font-size: var(--font-size-title-medium);
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	line-height: 1.15;
+	margin: 0 0 32px;
+}
+
+/* ---------------------------------------------------------------- the prose */
+
+.prose {
+	color: var(--color-grey-200);
+	font-size: var(--font-size-medium);
+	line-height: 1.8;
+}
+
+.prose h2 {
+	color: var(--color-grey-0);
+	font-size: var(--font-size-title-small);
+	font-weight: 500;
+	line-height: 1.2;
+	margin: 56px 0 16px;
+	scroll-margin-top: 24px;
+}
+
+.prose h3 {
+	color: var(--color-grey-0);
+	font-size: var(--font-size-large);
+	font-weight: 500;
+	line-height: 1.2;
+	margin: 48px 0 12px;
+	scroll-margin-top: 24px;
+}
+
+.prose p {
+	margin: 0 0 28px;
+}
+
+.prose a {
+	color: var(--color-orange-400);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.prose a:hover {
+	color: var(--color-orange-300);
+}
+
+.prose strong {
+	color: var(--color-grey-50);
+	font-weight: 600;
+}
+
+.prose em {
+	font-style: italic;
+}
+
+.prose ul {
+	color: var(--color-grey-300);
+	list-style: disc;
+	margin: 0 0 28px;
+	padding-left: 24px;
+}
+
+.prose li {
+	margin: 8px 0;
+}
+
+/* Ordered lists read as numbered steps: a dot per item, joined by a rule. */
+.prose ol {
+	counter-reset: step;
+	list-style: none;
+	margin: 0 0 28px;
+	padding-left: 0;
+}
+
+.prose ol > li {
+	counter-increment: step;
+	margin-bottom: 32px;
+	padding-left: 36px;
+	position: relative;
+}
+
+.prose ol > li::before {
+	align-items: center;
+	background: var(--color-grey-600);
+	border-radius: 50%;
+	color: var(--color-grey-50);
+	content: counter(step);
+	display: flex;
+	font-size: var(--font-size-small);
+	font-weight: 600;
+	height: 26px;
+	justify-content: center;
+	left: 0;
+	line-height: 1;
+	position: absolute;
+	top: 0;
+	width: 26px;
+	z-index: var(--z-foreground);
+}
+
+.prose ol > li:not(:last-child)::after {
+	background: var(--color-grey-700);
+	bottom: -32px;
+	content: "";
+	left: 13px;
+	position: absolute;
+	top: 30px;
+	width: 1px;
+}
+
+.prose blockquote {
+	border-left: 3px solid var(--color-orange-500);
+	color: var(--color-grey-300);
+	margin: 32px 0;
+	padding-left: 20px;
+}
+
+.prose hr {
+	border: 0;
+	border-top: 1px solid var(--color-grey-700);
+	margin: 48px 0;
+}
+
+.prose img {
+	border: 1px solid var(--color-grey-700);
+	border-radius: 8px;
+	height: auto;
+	margin: 0 0 28px;
+	max-width: 100%;
+}
+
+.prose table {
+	border-collapse: collapse;
+	display: block;
+	font-size: var(--font-size-body);
+	margin: 0 0 28px;
+	overflow-x: auto;
+	width: 100%;
+}
+
+.prose th,
+.prose td {
+	border: 1px solid var(--color-grey-700);
+	padding: 8px 12px;
+	text-align: left;
+}
+
+.prose th {
+	background: var(--color-grey-800);
+	color: var(--color-grey-50);
+	font-weight: 600;
+}
+
+.prose code {
+	background: var(--color-grey-800);
+	border-radius: 4px;
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	padding: 2px 6px;
+}
+
+/* Kramdown wraps a fence in a div of its own, which would carry the prose's paragraph spacing
+   on top of the frame's. The frame is the `pre`; the wrapper only holds it. */
+.prose .highlighter-rouge,
+.prose .highlight {
+	margin: 0;
+}
+
+.prose pre {
+	background: var(--color-grey-800);
+	border: 1px solid var(--color-grey-700);
+	border-radius: 8px;
+	font-size: var(--font-size-small);
+	line-height: 1.6;
+	margin: 0 0 28px;
+	overflow-x: auto;
+	padding: 16px 20px;
+}
+
+.prose pre code {
+	background: transparent;
+	color: var(--color-grey-100);
+	line-height: 1.6;
+	padding: 0;
+	tab-size: 4;
+	white-space: pre;
+}
+
+/* Rouge's token classes, on the palette the app gives Prism's. */
+.prose pre .c,
+.prose pre .c1,
+.prose pre .cm,
+.prose pre .cd,
+.prose pre .cp {
+	color: var(--color-grey-400);
+}
+
+.prose pre .s,
+.prose pre .s1,
+.prose pre .s2,
+.prose pre .se,
+.prose pre .sb,
+.prose pre .sx,
+.prose pre .dl,
+.prose pre .sa {
+	color: var(--color-blue-300);
+}
+
+.prose pre .k,
+.prose pre .kd,
+.prose pre .kn,
+.prose pre .kr,
+.prose pre .kc,
+.prose pre .kt,
+.prose pre .kp,
+.prose pre .nb,
+.prose pre .bp {
+	color: var(--color-purple-300);
+}
+
+.prose pre .nf,
+.prose pre .nc,
+.prose pre .nx,
+.prose pre .py,
+.prose pre .na,
+.prose pre .nt {
+	color: var(--color-green-300);
+}
+
+.prose pre .m,
+.prose pre .mi,
+.prose pre .mf,
+.prose pre .mh,
+.prose pre .nv,
+.prose pre .vg,
+.prose pre .no {
+	color: var(--color-orange-300);
+}
+
+.prose pre .p,
+.prose pre .o,
+.prose pre .ow {
+	color: var(--color-grey-300);
+}
+
+/* ---------------------------------------------------------------- sharing */
+
+dialog.share {
+	background: var(--color-grey-800);
+	border: 1px solid var(--color-grey-700);
+	border-radius: 12px;
+	color: var(--text-color);
+	padding: 20px;
+	width: min(420px, calc(100vw - 32px));
+}
+
+dialog.share::backdrop {
+	background: rgb(0 0 0 / 0.5);
+}
+
+dialog.share h2 {
+	font-size: var(--font-size-large);
+	margin: 0 0 4px;
+}
+
+dialog.share p {
+	color: var(--color-grey-400);
+	font-size: var(--font-size-body);
+	margin: 0 0 16px;
+}
+
+dialog.share .targets {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+dialog.share .targets .icon {
+	height: 14px;
+	width: 14px;
+}
+
+dialog.share .copy-row {
+	display: flex;
+	gap: 8px;
+}
+
+dialog.share .copy-row input {
+	background: var(--color-grey-900);
+	border: 1px solid var(--color-grey-600);
+	border-radius: 10px;
+	color: var(--color-grey-300);
+	flex: 1;
+	font-size: var(--font-size-body);
+	min-width: 0;
+	padding: 0 12px;
+}
+
+/* ---------------------------------------------------------------- narrow windows */
+
+@media (width <= 900px) {
+	.hero {
+		grid-template-columns: 1fr;
+	}
+
+	.grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.index .content {
+		padding: 48px 24px 64px;
+	}
+}
+
+@media (width <= 640px) {
+	.grid {
+		grid-template-columns: 1fr;
+	}
+
+	.filters {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.index .content {
+		padding: 40px 16px 56px;
+	}
+
+	.article .content {
+		padding: 48px 16px 64px;
+	}
+
+	/* Too narrow for the share button to sit beside three columns of metadata — it drops to a row
+	   of its own beneath them. */
+	.article .meta {
+		gap: 8px 16px;
+		grid-template-columns: auto auto 1fr;
+	}
+
+	.article .meta .share {
+		grid-column: 1 / -1;
+		grid-row: 3;
+		justify-self: start;
+
+		/* On top of the row gap the grid now carries. */
+		margin-top: 8px;
+	}
+}

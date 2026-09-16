@@ -1,0 +1,13 @@
+{%- comment -%}
+  A post's cover. Without an image it sets the title on a gradient, so a post with none still has
+  a card rather than a gap.
+
+  Usage: {% include cover.html post=post wide=true %}
+{%- endcomment -%}
+<div class="cover{% if include.wide %} wide{% endif %}{% if include.post.hero_url %} has-image{% endif %}">
+	{%- if include.post.hero_url -%}
+		<img alt="{{ include.post.title }}" height="450" loading="lazy" src="{{ include.post.hero_url | relative_url }}" width="800" />
+	{%- else -%}
+		<span class="fallback-title">{{ include.post.title }}</span>
+	{%- endif -%}
+</div>

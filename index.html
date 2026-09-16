@@ -1,0 +1,93 @@
+---
+layout: default
+title: Blog
+---
+
+{%- assign posts = site.data.articles -%}
+{%- assign hero = posts | first -%}
+{%- assign listed = posts | shift -%}
+
+{%- comment -%}
+  Only the topics published posts actually use — the filter row shows no empty one.
+{%- endcomment -%}
+{%- assign used = "" | split: "" -%}
+{%- for post in listed -%}
+	{%- unless used contains post.category -%}
+		{%- assign used = used | push: post.category -%}
+	{%- endunless -%}
+{%- endfor -%}
+
+<main class="index">
+	<div class="content">
+		{%- unless hero -%}
+			{%- comment -%}
+			  Nothing published yet. A blog that answers with an empty page reads as a fault, so it
+			  says what it is instead.
+			{%- endcomment -%}
+			<div class="no-results">
+				{% include icon.html name="box-open" %}
+				<h2>Nothing published yet</h2>
+				<p>The first article is on its way.</p>
+			</div>
+		{%- endunless -%}
+
+		{%- if hero -%}
+			<section class="hero">
+				<a class="hero-cover" href="{{ hero.url | relative_url }}">
+					{% include cover.html post=hero wide=true %}
+				</a>
+				<div class="hero-info">
+					<div class="hero-text">
+						<span class="hero-category"><span class="tag neutral">{{ hero.category_label }}</span></span>
+						<h1 class="hero-title">{{ hero.title }}</h1>
+						<p class="hero-excerpt">{{ hero.excerpt_text }}</p>
+					</div>
+					<a class="btn large btn-secondary" href="{{ hero.url | relative_url }}">Read more</a>
+				</div>
+			</section>
+		{%- endif -%}
+
+		{%- comment -%}
+		  Nothing beyond the hero yet: the filter row and the grid would be an empty frame, and the
+		  "no articles" state would read as a fault rather than as a blog with one post.
+		{%- endcomment -%}
+		{%- if listed.size > 0 -%}
+			<div class="filters">
+				<div class="search-group">
+					<span class="filters-label">Articles</span>
+					<div class="field medium">
+						{% include icon.html name="search" class="field-icon" %}
+						<input aria-label="Search articles" data-filter-search placeholder="Search articles" type="search" />
+					</div>
+				</div>
+				<div class="select">
+					{% include icon.html name="tags" class="field-icon" %}
+					<select aria-label="Filter by category" data-filter-category>
+						<option value="all">All categories</option>
+						{%- for id in used -%}
+							{%- for category in site.categories -%}
+								{%- if category.id == id -%}
+									<option value="{{ category.id }}">{{ category.label }}</option>
+								{%- endif -%}
+							{%- endfor -%}
+						{%- endfor -%}
+					</select>
+					{% include icon.html name="chevron-right" class="chevron" %}
+				</div>
+			</div>
+
+			<ul class="grid" data-grid>
+				{%- for post in listed -%}
+					<li>{% include card.html post=post %}</li>
+				{%- endfor -%}
+			</ul>
+
+			<div class="no-results" data-no-results hidden>
+				{% include icon.html name="box-open" %}
+				<h2>No articles found</h2>
+				<p>Try another category, or clear the search.</p>
+			</div>
+		{%- endif -%}
+	</div>
+	{% include footer.html %}
+</main>

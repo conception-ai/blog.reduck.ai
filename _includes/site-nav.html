@@ -1,0 +1,49 @@
+{%- comment -%}
+  The reduck.ai header, restated. Every link leaves for the app: this is a site of its own, so
+  there is no client-side route to take and no session to read — "Sign In" opens the app's own
+  panel the way the header's does there.
+{%- endcomment -%}
+<header class="site-header">
+	<a class="lockup" aria-label="Reduck homepage" href="{{ site.app_url }}">
+		<img alt="Reduck" height="32" src="{{ '/assets/img/logo-full-white.png' | relative_url }}" width="130" />
+	</a>
+
+	<nav class="primary" aria-label="Main">
+		<ul>
+			<li><a class="btn medium btn-ghost" href="{{ site.app_url }}/#how-it-works">How it works</a></li>
+			<li><a class="btn medium btn-ghost" href="{{ site.app_url }}/use-cases">Use cases</a></li>
+			<li><a class="btn medium btn-ghost" href="{{ site.app_url }}/explore/scripts">Scripts</a></li>
+			<li><a class="btn medium btn-ghost" href="{{ site.app_url }}/pricing">Pricing</a></li>
+			<li><a class="btn medium btn-ghost" href="{{ site.discord_url }}" rel="noopener noreferrer" target="_blank">Community</a></li>
+		</ul>
+	</nav>
+
+	<nav aria-label="User account">
+		<ul>
+			<li><a class="btn medium btn-secondary" href="https://form.reduck.ai" rel="noopener noreferrer" target="_blank">Contact us</a></li>
+			<li><a class="btn medium btn-primary" href="{{ site.app_url }}/#signin">Sign In</a></li>
+		</ul>
+	</nav>
+
+	<button class="btn large btn-ghost icon-only burger" aria-controls="site-menu" aria-expanded="false" aria-label="Open menu" data-site-menu-toggle type="button">
+		{% include icon.html name="bars" %}
+	</button>
+</header>
+
+<div class="mobile-menu" id="site-menu" data-site-menu hidden>
+	<div class="cta">
+		<a class="btn large btn-secondary" href="https://form.reduck.ai" rel="noopener noreferrer" target="_blank">Contact us</a>
+		<a class="btn large btn-primary" href="{{ site.app_url }}/#signin">Sign In</a>
+	</div>
+	<nav class="links" aria-label="Mobile navigation">
+		<a class="nav-link" href="{{ site.app_url }}/#how-it-works">How it works</a>
+		<hr />
+		<a class="nav-link" href="{{ site.app_url }}/use-cases">Use cases</a>
+		<hr />
+		<a class="nav-link" href="{{ site.app_url }}/explore/scripts">Scripts</a>
+		<hr />
+		<a class="nav-link" href="{{ site.app_url }}/pricing">Pricing</a>
+		<hr />
+		<a class="nav-link" href="{{ site.discord_url }}" rel="noopener noreferrer" target="_blank">Community</a>
+	</nav>
+</div>

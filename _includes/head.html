@@ -1,0 +1,38 @@
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+
+{%- assign page_desc = page.description | default: site.description -%}
+{%- if page.url == "/" -%}
+	{%- assign head_title = site.title -%}
+{%- else -%}
+	{%- assign head_title = page.title | append: " · " | append: site.title -%}
+{%- endif -%}
+
+<title>{{ head_title }}</title>
+<meta content="{{ page_desc | strip_newlines }}" name="description" />
+<link href="{{ page.url | absolute_url }}" rel="canonical" />
+{%- if page.draft %}
+<!-- A draft answers at its URL so it can be shared for review, and must never be indexed. -->
+<meta content="noindex, nofollow" name="robots" />
+{%- endif %}
+
+<meta content="{{ head_title }}" property="og:title" />
+<meta content="{{ page_desc | strip_newlines }}" property="og:description" />
+<meta content="{{ page.url | absolute_url }}" property="og:url" />
+<meta content="{{ site.title }}" property="og:site_name" />
+{%- if page.hero_url %}
+<meta content="{{ page.hero_url | absolute_url }}" property="og:image" />
+{%- endif %}
+<meta content="{% if page.layout == 'article' %}article{% else %}website{% endif %}" property="og:type" />
+<meta content="summary_large_image" name="twitter:card" />
+
+<link href="{{ '/assets/favicon.ico' | relative_url }}" rel="icon" sizes="any" />
+<link href="{{ '/feed.xml' | relative_url }}" rel="alternate" title="{{ site.title }}" type="application/atom+xml" />
+
+<link href="https://fonts.googleapis.com" rel="preconnect" />
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<link href="{{ '/assets/css/tokens.css' | relative_url }}" rel="stylesheet" />
+<link href="{{ '/assets/css/site.css' | relative_url }}" rel="stylesheet" />
+<link href="{{ '/assets/css/blog.css' | relative_url }}" rel="stylesheet" />
