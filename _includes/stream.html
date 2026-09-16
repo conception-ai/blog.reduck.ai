@@ -3,18 +3,20 @@
   data so it's eligible for a video rich result in search.
 
   Usage:
-    {% include stream.html id="VIDEO_UID" title="..." description="..." uploadDate="2026-09-16" duration="PT45S" %}
+    {% include stream.html id="VIDEO_UID" title="..." description="..." uploadDate="2026-09-16" duration="PT45S" poster="cover.png" %}
   id is the Stream video UID (from the Cloudflare dashboard or upload response), not a URL.
   duration is ISO 8601 (e.g. "PT1M30S"). title/description/uploadDate are required for the
   structured data to validate; without them the video still embeds, just without rich-result
-  eligibility.
+  eligibility. poster is a filename beside the post (like a regular image reference) shown before
+  play instead of Stream's auto-generated frame.
 {%- endcomment -%}
+{%- assign poster_url = page.url | append: include.poster | absolute_url -%}
 <div class="stream-video">
 	<iframe
 		allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
 		allowfullscreen="true"
 		loading="lazy"
-		src="https://{{ site.cloudflare_stream_domain }}/{{ include.id }}/iframe"
+		src="https://{{ site.cloudflare_stream_domain }}/{{ include.id }}/iframe{% if include.poster %}?poster={{ poster_url | url_encode }}{% endif %}"
 		title="{{ include.title | default: 'Embedded video' }}"
 	></iframe>
 </div>
@@ -26,7 +28,7 @@
 		"@type": "VideoObject",
 		"name": {{ include.title | jsonify }},
 		"description": {{ include.description | default: include.title | jsonify }},
-		"thumbnailUrl": {{ "https://" | append: site.cloudflare_stream_domain | append: "/" | append: include.id | append: "/thumbnails/thumbnail.jpg" | jsonify }},
+		"thumbnailUrl": {% if include.poster %}{{ poster_url | jsonify }}{% else %}{{ "https://" | append: site.cloudflare_stream_domain | append: "/" | append: include.id | append: "/thumbnails/thumbnail.jpg" | jsonify }}{% endif %},
 		"uploadDate": {{ include.uploadDate | jsonify }},
 		{%- if include.duration %}"duration": {{ include.duration | jsonify }},{% endif %}
 		"embedUrl": {{ "https://" | append: site.cloudflare_stream_domain | append: "/" | append: include.id | append: "/iframe" | jsonify }},

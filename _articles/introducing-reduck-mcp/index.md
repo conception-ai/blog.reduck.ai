@@ -1,10 +1,10 @@
 ---
 title: Introducing Reduck MCP
-description: The easiest way for an agent to integrate and automate any site you use — no API required.
+description: Reduck MCP lets AI agents discover, run, and create browser automation scripts that work in your own logged-in Chrome — no API required.
 publishedAt: "2026-09-16"
 category: product
 author: Reduck Team
-heroImage: cover.png
+heroImage: one-integration-every-website.png
 excerpt: |
     Computer Use lets agents automate sites with no API, but it's unreliable, slow and expensive
     at scale. Reduck MCP gives agents discoverable, reusable scripts that run in your own Chrome.
@@ -24,19 +24,19 @@ Today, even if agents can use Computer Use to automate sites with no API — Lin
 
 That's why we built Reduck MCP: the easiest way for an agent to integrate and automate any site you use.
 
-![One integration, every website](one-integration-every-website.png)
-
 Reduck MCP lets agents discover, run, and create browser automation scripts that serve as tools. Scripts run in your own Chrome, through our extension, which means your agent works where you're already logged in — no credentials exposure, and the same fingerprint, so no bot detection.
 
 You can try it for free at [start.reduck.ai](https://start.reduck.ai/).
 
 ## How it works
 
+Your agent calls Reduck MCP, which drives your own logged-in Chrome through a lightweight extension — no separate credentials, no new browser profile to detect.
+
 ![How Reduck MCP works: an agent calls Reduck, which drives your logged-in browser to complete the task](how-it-works.gif)
 
 ## Demo
 
-{% include stream.html id="5f6394c078797e7a99cecc9455ed21ba" title="Reduck MCP demo: GEO monitoring with Claude" description="A demo of Reduck MCP, showing Claude use Reduck to probe ChatGPT for GEO (generative engine optimization) monitoring, with no API for the target site." uploadDate="2026-09-16" duration="PT45S" %}
+{% include stream.html id="5f6394c078797e7a99cecc9455ed21ba" title="Reduck MCP demo: GEO monitoring with Claude" description="A demo of Reduck MCP, showing Claude use Reduck to probe ChatGPT for GEO (generative engine optimization) monitoring, with no API for the target site." uploadDate="2026-09-16" duration="PT45S" poster="geo-cover.png" %}
 
 You can see the product in action in this demo, where Claude does GEO monitoring by probing ChatGPT on a prompt we want to position on, using Reduck.
 
@@ -68,7 +68,7 @@ On Codex CLI:
 codex mcp add reduck --url https://mcp.reduck.ai
 ```
 
-For other MCP clients, see our Onboarding Guide.
+For other MCP clients, see our [Onboarding Guide](https://docs.reduck.ai/other-clients/).
 
 Start a new session and get going with your first automation. You can try a prompt like:
 
@@ -94,7 +94,7 @@ Once done, your scripts can be discovered by your agent through Reduck MCP and f
 
 ## Learn more
 
-- Core concepts — key concepts, such as scripts and browser execution
-- API — how to call Reduck scripts programmatically from HTTP endpoints instead of MCP calls
-- CLI — a strong alternative for parallel calls, saving script run outputs to disk locally, and piping them to other apps
+- [Core concepts](https://docs.reduck.ai/scripts/) — key concepts, such as scripts and browser execution
+- [API](https://docs.reduck.ai/api-reference/) — how to call Reduck scripts programmatically from HTTP endpoints instead of MCP calls
+- [CLI](https://docs.reduck.ai/cli/) — a strong alternative for parallel calls, saving script run outputs to disk locally, and piping them to other apps
 - [Discord](https://discord.gg/ARgNAZFunD) — chat with us about issues, ideas, and more
