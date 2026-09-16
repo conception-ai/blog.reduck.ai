@@ -1,0 +1,14 @@
+{%- comment -%}
+  An embedded Cloudflare Stream video, in a 16:9 responsive frame.
+
+  Usage: {% include stream.html id="VIDEO_UID" %}
+  id is the Stream video UID (from the Cloudflare dashboard or upload response), not a URL.
+{%- endcomment -%}
+<div class="stream-video">
+	<iframe
+		allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+		allowfullscreen="true"
+		loading="lazy"
+		src="https://{{ site.cloudflare_stream_domain }}/{{ include.id }}/iframe"
+	></iframe>
+</div>
