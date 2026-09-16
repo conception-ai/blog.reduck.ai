@@ -26,7 +26,7 @@ That's why we built Reduck MCP: the easiest way for an agent to integrate and au
 
 Reduck MCP lets agents discover, run, and create browser automation scripts that serve as tools. Scripts run in your own Chrome, through our extension, which means your agent works where you're already logged in — no credentials exposure, and the same fingerprint, so no bot detection.
 
-You can try it for free at [start.reduck.ai](https://start.reduck.ai/).
+You can try it for free at [start.reduck.ai](https://start.reduck.ai/?utm_source=blog&utm_medium=referral&utm_campaign=introducing-reduck-mcp&utm_content=cta-start).
 
 ## How it works
 
@@ -46,13 +46,13 @@ Reduck can be used for many other use cases, such as:
 - Reddit monitoring and posting
 - Facebook posting
 
-...and more at [reduck.ai/explore/scripts](https://reduck.ai/explore/scripts).
+...and more at [reduck.ai/explore/scripts](https://reduck.ai/explore/scripts?utm_source=blog&utm_medium=referral&utm_campaign=introducing-reduck-mcp&utm_content=use-cases).
 
 ## Get started in minutes
 
 You can connect your agent to Reduck MCP and automate complex flows on Reddit, WhatsApp, or LinkedIn in literally minutes:
 
-1. Create an account at [reduck.ai/#signin](https://reduck.ai/#signin)
+1. Create an account at [reduck.ai/#signin](https://reduck.ai/?utm_source=blog&utm_medium=referral&utm_campaign=introducing-reduck-mcp&utm_content=signup#signin)
 2. Install our [Chrome extension](https://chromewebstore.google.com/detail/reduck/koccidjchcojlmgkdhibpgjbnhcoopio) and pair it with your account
 3. Install Reduck MCP
 
@@ -68,7 +68,7 @@ On Codex CLI:
 codex mcp add reduck --url https://mcp.reduck.ai
 ```
 
-For other MCP clients, see our [Onboarding Guide](https://docs.reduck.ai/other-clients/).
+For other MCP clients, see our [Onboarding Guide](https://docs.reduck.ai/other-clients/?utm_source=blog&utm_medium=referral&utm_campaign=introducing-reduck-mcp&utm_content=onboarding-guide).
 
 Start a new session and get going with your first automation. You can try a prompt like:
 
@@ -90,11 +90,11 @@ Just prompt your agent to build a new script, for example:
 
 > Use Reduck MCP to create scripts for trends.google.com keywords.
 
-Once done, your scripts can be discovered by your agent through Reduck MCP and found at [reduck.ai/projects](https://reduck.ai/projects/).
+Once done, your scripts can be discovered by your agent through Reduck MCP and found at [reduck.ai/projects](https://reduck.ai/projects/?utm_source=blog&utm_medium=referral&utm_campaign=introducing-reduck-mcp&utm_content=projects).
 
 ## Learn more
 
-- [Core concepts](https://docs.reduck.ai/scripts/) — key concepts, such as scripts and browser execution
-- [API](https://docs.reduck.ai/api-reference/) — how to call Reduck scripts programmatically from HTTP endpoints instead of MCP calls
-- [CLI](https://docs.reduck.ai/cli/) — a strong alternative for parallel calls, saving script run outputs to disk locally, and piping them to other apps
+- [Core concepts](https://docs.reduck.ai/scripts/?utm_source=blog&utm_medium=referral&utm_campaign=introducing-reduck-mcp&utm_content=core-concepts) — key concepts, such as scripts and browser execution
+- [API](https://docs.reduck.ai/api-reference/?utm_source=blog&utm_medium=referral&utm_campaign=introducing-reduck-mcp&utm_content=api) — how to call Reduck scripts programmatically from HTTP endpoints instead of MCP calls
+- [CLI](https://docs.reduck.ai/cli/?utm_source=blog&utm_medium=referral&utm_campaign=introducing-reduck-mcp&utm_content=cli) — a strong alternative for parallel calls, saving script run outputs to disk locally, and piping them to other apps
 - [Discord](https://discord.gg/ARgNAZFunD) — chat with us about issues, ideas, and more
