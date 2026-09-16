@@ -4,6 +4,7 @@ description: The easiest way for an agent to integrate and automate any site you
 publishedAt: "2026-09-16"
 category: product
 author: Reduck Team
+heroImage: cover.png
 excerpt: |
     Computer Use lets agents automate sites with no API, but it's unreliable, slow and expensive
     at scale. Reduck MCP gives agents discoverable, reusable scripts that run in your own Chrome.
@@ -28,6 +29,8 @@ Reduck MCP lets agents discover, run, and create browser automation scripts that
 You can try it for free at [start.reduck.ai](https://start.reduck.ai/).
 
 ## Demo
+
+![How Reduck MCP works: an agent calls Reduck, which drives your logged-in browser to complete the task](how-it-works.gif)
 
 You can see the product in action in this demo, where Claude does GEO monitoring by probing ChatGPT on a prompt we want to position on, using Reduck.
 
