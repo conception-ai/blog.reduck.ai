@@ -36,7 +36,7 @@ You can try it for free at [start.reduck.ai](https://start.reduck.ai/).
 
 ## Demo
 
-{% include stream.html id="5f6394c078797e7a99cecc9455ed21ba" %}
+{% include stream.html id="5f6394c078797e7a99cecc9455ed21ba" title="Reduck MCP demo: GEO monitoring with Claude" description="A demo of Reduck MCP, showing Claude use Reduck to probe ChatGPT for GEO (generative engine optimization) monitoring, with no API for the target site." uploadDate="2026-09-16" duration="PT45S" %}
 
 You can see the product in action in this demo, where Claude does GEO monitoring by probing ChatGPT on a prompt we want to position on, using Reduck.
 

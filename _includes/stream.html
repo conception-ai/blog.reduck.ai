@@ -1,8 +1,13 @@
 {%- comment -%}
-  An embedded Cloudflare Stream video, in a 16:9 responsive frame.
+  An embedded Cloudflare Stream video, in a 16:9 responsive frame, with VideoObject structured
+  data so it's eligible for a video rich result in search.
 
-  Usage: {% include stream.html id="VIDEO_UID" %}
+  Usage:
+    {% include stream.html id="VIDEO_UID" title="..." description="..." uploadDate="2026-09-16" duration="PT45S" %}
   id is the Stream video UID (from the Cloudflare dashboard or upload response), not a URL.
+  duration is ISO 8601 (e.g. "PT1M30S"). title/description/uploadDate are required for the
+  structured data to validate; without them the video still embeds, just without rich-result
+  eligibility.
 {%- endcomment -%}
 <div class="stream-video">
 	<iframe
@@ -10,5 +15,22 @@
 		allowfullscreen="true"
 		loading="lazy"
 		src="https://{{ site.cloudflare_stream_domain }}/{{ include.id }}/iframe"
+		title="{{ include.title | default: 'Embedded video' }}"
 	></iframe>
 </div>
+
+{%- if include.title -%}
+<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "VideoObject",
+		"name": {{ include.title | jsonify }},
+		"description": {{ include.description | default: include.title | jsonify }},
+		"thumbnailUrl": {{ "https://" | append: site.cloudflare_stream_domain | append: "/" | append: include.id | append: "/thumbnails/thumbnail.jpg" | jsonify }},
+		"uploadDate": {{ include.uploadDate | jsonify }},
+		{%- if include.duration %}"duration": {{ include.duration | jsonify }},{% endif %}
+		"embedUrl": {{ "https://" | append: site.cloudflare_stream_domain | append: "/" | append: include.id | append: "/iframe" | jsonify }},
+		"contentUrl": {{ "https://" | append: site.cloudflare_stream_domain | append: "/" | append: include.id | append: "/manifest/video.m3u8" | jsonify }}
+	}
+</script>
+{%- endif -%}
