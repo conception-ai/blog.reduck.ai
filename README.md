@@ -54,6 +54,9 @@ Standard markdown, GitHub flavoured.
 
 - **Images** live beside the post that uses them and are referenced by name — `![Alt](cover.svg)`.
   They are published beside the post, so nothing else has to be kept in step.
+- **Video** is hosted on Cloudflare Stream, not committed to the repo. Upload it in the
+  [Stream dashboard](https://dash.cloudflare.com/8ccfe23d24f8b4ba2e2ba302d7fc89fb/stream/videos),
+  copy its video UID, and embed it with `{% include stream.html id="VIDEO_UID" %}`.
 - **Fenced code** is highlighted for `bash`, `typescript`, `json` and `toml`. Any other language
   renders in the same panel, uncoloured.
 - **Ordered lists** are drawn as joined steps — a numbered dot per item, linked by a rule.

@@ -563,6 +563,24 @@ main.article > * {
 	max-width: 100%;
 }
 
+.stream-video {
+	aspect-ratio: 16 / 9;
+	border: 1px solid var(--color-grey-700);
+	border-radius: 8px;
+	margin: 0 0 28px;
+	overflow: hidden;
+	position: relative;
+}
+
+.stream-video iframe {
+	border: 0;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
 .prose table {
 	border-collapse: collapse;
 	display: block;

@@ -7,6 +7,9 @@ app_url: https://reduck.ai
 discord_url: https://discord.gg/reduck
 lang: en
 
+# The Cloudflare Stream account's playback domain, used by _includes/stream.html to embed videos.
+cloudflare_stream_domain: customer-469wlygs2m99dfwt.cloudflarestream.com
+
 collections:
     articles:
         output: true
