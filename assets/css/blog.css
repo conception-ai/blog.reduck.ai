@@ -731,7 +731,7 @@ main.article > * {
    wrapper carries the 28px article rhythm that `.prose pre` used to contribute on its own;
    the pre's own bottom margin is zeroed out here so the gap isn't doubled. */
 .prose .code-copy {
-	align-items: flex-start;
+	align-items: center;
 	display: flex;
 	gap: 12px;
 	margin-bottom: 28px;
