@@ -3,7 +3,7 @@ title: Introducing Reduck MCP
 description: Reduck MCP lets AI agents discover, run, and create browser automation scripts that work in your own logged-in Chrome — no API required.
 publishedAt: "2026-09-16"
 category: product
-author: Reduck Team
+author: Daniel Huynh
 heroImage: cover.png
 heroBanner: true
 excerpt: |
