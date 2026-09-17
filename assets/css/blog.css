@@ -716,6 +716,60 @@ main.article > * {
 	color: var(--color-grey-300);
 }
 
+/* ---------------------------------------------------------------- code copy buttons */
+
+/* blog.js wraps every `.prose pre` in this on load. A flex row gives the button its own
+   reserved column beside the pre instead of floating it over the pre's scrolling content —
+   so it can never sit on top of code text, at any scroll position or viewport width. The
+   wrapper carries the 28px article rhythm that `.prose pre` used to contribute on its own;
+   the pre's own bottom margin is zeroed out here so the gap isn't doubled. */
+.prose .code-copy {
+	align-items: flex-start;
+	display: flex;
+	gap: 12px;
+	margin-bottom: 28px;
+}
+
+.prose .code-copy pre {
+	flex: 1;
+	margin-bottom: 0;
+	min-width: 0;
+}
+
+.prose .code-copy-btn {
+	align-items: center;
+	background: var(--color-grey-900);
+	border: 1px solid var(--color-grey-700);
+	border-radius: 6px;
+	color: var(--color-grey-400);
+	display: inline-flex;
+	flex-shrink: 0;
+	height: 28px;
+	justify-content: center;
+	transition:
+		background 200ms,
+		border-color 200ms,
+		color 200ms;
+	width: 28px;
+}
+
+.prose .code-copy-btn:hover,
+.prose .code-copy-btn:focus-visible {
+	background: var(--color-grey-700);
+	border-color: var(--color-grey-500);
+	color: var(--color-grey-50);
+}
+
+.prose .code-copy-btn.copied {
+	border-color: var(--color-green-600);
+	color: var(--color-green-400);
+}
+
+.prose .code-copy-btn .icon {
+	height: 14px;
+	width: 14px;
+}
+
 /* ---------------------------------------------------------------- sharing */
 
 dialog.share {
