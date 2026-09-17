@@ -647,7 +647,7 @@ main.article > * {
 	line-height: 1.6;
 	margin: 0 0 28px;
 	overflow-x: auto;
-	padding: 16px 20px;
+	padding: 16px 52px 16px 20px;
 }
 
 .prose pre code {
@@ -714,6 +714,52 @@ main.article > * {
 .prose pre .o,
 .prose pre .ow {
 	color: var(--color-grey-300);
+}
+
+/* ---------------------------------------------------------------- code copy buttons */
+
+/* blog.js wraps every `.prose pre` in this on load, so the button below sits beside the frame
+   rather than inside the box that scrolls — pinned to the corner no matter how far a wide
+   snippet is scrolled. */
+.prose .code-copy {
+	position: relative;
+}
+
+.prose .code-copy-btn {
+	align-items: center;
+	background: var(--color-grey-900);
+	border: 1px solid var(--color-grey-700);
+	border-radius: 6px;
+	color: var(--color-grey-400);
+	display: inline-flex;
+	height: 28px;
+	justify-content: center;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	transition:
+		background 200ms,
+		border-color 200ms,
+		color 200ms;
+	width: 28px;
+	z-index: var(--z-foreground);
+}
+
+.prose .code-copy-btn:hover,
+.prose .code-copy-btn:focus-visible {
+	background: var(--color-grey-700);
+	border-color: var(--color-grey-500);
+	color: var(--color-grey-50);
+}
+
+.prose .code-copy-btn.copied {
+	border-color: var(--color-green-600);
+	color: var(--color-green-400);
+}
+
+.prose .code-copy-btn .icon {
+	height: 14px;
+	width: 14px;
 }
 
 /* ---------------------------------------------------------------- sharing */
