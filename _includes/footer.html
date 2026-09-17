@@ -4,10 +4,10 @@
 			<img class="logo" alt="Reduck" height="32" src="{{ '/assets/img/logo-full-white.png' | relative_url }}" width="173" />
 			<nav class="socials" aria-label="Social links">
 				<a aria-label="X" href="https://x.com/ReduckAI" rel="noopener noreferrer" target="_blank">
-					<img class="icon" alt="" height="16" src="{{ '/assets/img/brands/x.svg' | relative_url }}" width="16" />
+					{% include icon.html name="x" %}
 				</a>
 				<a aria-label="LinkedIn" href="https://www.linkedin.com/company/reduck-ai" rel="noopener noreferrer" target="_blank">
-					<img class="icon" alt="" height="16" src="{{ '/assets/img/brands/linkedin.svg' | relative_url }}" width="16" />
+					{% include icon.html name="linkedin" %}
 				</a>
 				<a aria-label="YouTube" href="https://www.youtube.com/@ReduckAI" rel="noopener noreferrer" target="_blank">
 					{% include icon.html name="youtube" %}

@@ -105,6 +105,13 @@
 	width: 1em;
 }
 
+/* A brand mark is drawn on a viewBox of its own and is rarely square, so its width follows its
+   height rather than being forced to match it. */
+.icon.brand {
+	height: 1em;
+	width: auto;
+}
+
 /* The nav row of a side panel: full width, left aligned, quiet until it is the open page. */
 .nav-link {
 	align-items: center;
@@ -377,7 +384,7 @@
 
 .site-footer .socials .icon {
 	height: 1em;
-	width: 1em;
+	width: auto;
 }
 
 .site-footer .socials a.contact {
