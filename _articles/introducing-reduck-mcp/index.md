@@ -4,7 +4,7 @@ description: Reduck MCP lets AI agents discover, run, and create browser automat
 publishedAt: "2026-09-16"
 category: product
 author: Reduck Team
-heroImage: one-integration-every-website.png
+heroImage: cover.png
 excerpt: |
     Computer Use lets agents automate sites with no API, but it's unreliable, slow and expensive
     at scale. Reduck MCP gives agents discoverable, reusable scripts that run in your own Chrome.
@@ -21,6 +21,8 @@ Today, even if agents can use Computer Use to automate sites with no API — Lin
 - **Expensive** — context fills up quickly and complex tasks hit rate limits
 
 ## Introducing Reduck MCP
+
+![Reduck architecture: AI agents connect through Reduck's MCP and extension to reach any website](one-integration-every-website.png)
 
 That's why we built Reduck MCP: the easiest way for an agent to integrate and automate any site you use.
 
