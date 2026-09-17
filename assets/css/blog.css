@@ -444,7 +444,20 @@ main.article > * {
 }
 
 /* A headline is longer than a breadcrumb can hold, so the trailing item is cut rather than
-   allowed to wrap the row. A bare inline span does not truncate — hence the block. */
+   allowed to wrap the row or push the page wider than the screen. `min-width: 0` is what lets it
+   be cut at all: a flex item will not shrink below its own content without it, so the headline
+   would otherwise run off a narrow screen and take a sideways scroll with it. Only the headline
+   gives way — "Blog" and the chevron keep their width. */
+.article .crumbs li {
+	min-width: 0;
+}
+
+.article .crumbs li:not(:last-child) {
+	flex-shrink: 0;
+}
+
+/* A bare inline span does not truncate — hence the block. 55ch caps it on a wide screen, where
+   there is more room than a breadcrumb should take. */
 .article .crumbs .current {
 	display: block;
 	max-width: 55ch;

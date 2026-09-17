@@ -50,6 +50,11 @@ module ReduckBlog
 
 				doc.data["excerpt_text"] = excerpt(doc)
 
+				# A draft answers `noindex` and is absent from the index and the feed. Submitting
+				# it in the sitemap at the same time asks a crawler to fetch a page it is then told
+				# not to keep — `jekyll-sitemap` lists every document until one says otherwise.
+				doc.data["sitemap"] = false if doc.data["draft"]
+
 				# Nothing renders `content` on this site, but an `excerpt` Jekyll builds from a
 				# post is what the feed falls back to, so the markdown stays where it is.
 			end
