@@ -28,12 +28,6 @@ Reduck MCP lets agents discover, run, and create browser automation scripts that
 
 You can try it for free at [start.reduck.ai](https://start.reduck.ai/?utm_source=blog&utm_medium=referral&utm_campaign=introducing-reduck-mcp&utm_content=cta-start).
 
-## How it works
-
-Your agent calls Reduck MCP, which drives your own logged-in Chrome through a lightweight extension — no separate credentials, no new browser profile to detect.
-
-![How Reduck MCP works: an agent calls Reduck, which drives your logged-in browser to complete the task](how-it-works.gif)
-
 ## Demo
 
 {% include stream.html id="5f6394c078797e7a99cecc9455ed21ba" title="Reduck MCP demo: GEO monitoring with Claude" description="A demo of Reduck MCP, showing Claude use Reduck to probe ChatGPT for GEO (generative engine optimization) monitoring, with no API for the target site." uploadDate="2026-09-16" duration="PT45S" poster="geo-cover.png" %}
