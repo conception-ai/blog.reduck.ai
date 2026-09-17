@@ -1,0 +1,11 @@
+# The topics a post can claim. A post names one; it cannot invent one. Read from `_data/` rather
+# than from `_config.yml` because Liquid's `site.categories` is Jekyll's own posts-by-category
+# hash, which shadows a config key of that name and leaves every loop over it empty.
+- id: product
+  label: Product
+- id: engineering
+  label: Engineering
+- id: tutorial
+  label: Tutorial
+- id: company
+  label: Company

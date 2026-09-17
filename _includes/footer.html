@@ -1,8 +1,25 @@
+{%- comment -%}
+  A reader reaches this having just finished an article, so it says where to follow the blog and
+  nothing else. The sitemap, the agent pages and the compliance badges are reduck.ai's work: they
+  answer a buyer's questions, which is not what is being asked here.
+{%- endcomment -%}
 <footer class="site-footer">
 	<div class="top">
 		<div class="left">
-			<img class="logo" alt="Reduck" height="32" src="{{ '/assets/img/logo-full-white.png' | relative_url }}" width="173" />
-			<nav class="socials" aria-label="Social links">
+			<a class="lockup" aria-label="Reduck homepage" href="{{ site.app_url }}">
+				<img class="logo" alt="Reduck" height="32" src="{{ '/assets/img/logo-full-white.png' | relative_url }}" width="173" />
+			</a>
+			<nav class="socials" aria-label="Follow Reduck">
+				{%- comment -%}
+				  The feed is declared in the head of every page, which only a reader already
+				  running a feed reader ever benefits from. This is the link the rest can see.
+				{%- endcomment -%}
+				<a aria-label="RSS feed" href="{{ '/feed.xml' | relative_url }}">
+					{% include icon.html name="rss" %}
+				</a>
+				<a class="discord-mark" aria-label="Discord" href="{{ site.discord_url }}" rel="noopener noreferrer" target="_blank">
+					{% include icon.html name="discord" %}
+				</a>
 				<a aria-label="X" href="https://x.com/ReduckAI" rel="noopener noreferrer" target="_blank">
 					{% include icon.html name="x" %}
 				</a>
@@ -12,10 +29,15 @@
 				<a aria-label="YouTube" href="https://www.youtube.com/@ReduckAI" rel="noopener noreferrer" target="_blank">
 					{% include icon.html name="youtube" %}
 				</a>
-				<a class="contact" href="https://form.reduck.ai" rel="noopener noreferrer" target="_blank">Contact us</a>
+				<a class="text" href="https://form.reduck.ai" rel="noopener noreferrer" target="_blank">Contact us</a>
 			</nav>
 		</div>
 
+		{%- comment -%}
+		  The one thing to do here that is not reading: the room where the posts get argued about.
+		  It is asked for once — this block wide, the mark in the row above once the block stacks,
+		  never both at a time (assets/css/site.css).
+		{%- endcomment -%}
 		<div class="discord">
 			<a class="btn large btn-secondary" href="{{ site.discord_url }}" rel="noopener noreferrer" target="_blank">
 				{% include icon.html name="discord" %}
@@ -23,56 +45,13 @@
 			</a>
 			<span>Get help, share feedback, meet the team</span>
 		</div>
-
-		<div class="right">
-			<div class="group">
-				<h4>Product</h4>
-				<ul>
-					<li><a href="{{ site.app_url }}/use-cases">Use cases</a></li>
-					<li><a href="{{ site.app_url }}/explore/scripts">Scripts</a></li>
-					<li><a href="{{ site.app_url }}/pricing">Pricing</a></li>
-				</ul>
-			</div>
-			<div class="group">
-				<h4>Agents</h4>
-				<ul>
-					<li><a href="{{ site.app_url }}/browser-automation/claude">Claude</a></li>
-					<li><a href="{{ site.app_url }}/browser-automation/codex">Codex</a></li>
-					<li><a href="{{ site.app_url }}/browser-automation/chatgpt">ChatGPT</a></li>
-					<li><a href="{{ site.app_url }}/browser-automation/openclaw">OpenClaw</a></li>
-					<li><a href="{{ site.app_url }}/browser-automation/hermes">Hermes</a></li>
-				</ul>
-			</div>
-			<div class="group">
-				<h4>Company</h4>
-				<ul>
-					<li><a href="https://blog.reduck.ai">Blog</a></li>
-					<li><a href="https://trust.reduck.ai/" rel="noopener noreferrer" target="_blank">Trust Center</a></li>
-					<li><a href="https://jobs.stationf.co/companies/conception-dev" rel="noopener noreferrer" target="_blank">Jobs</a></li>
-				</ul>
-			</div>
-			<div class="group">
-				<h4>Legal</h4>
-				<ul>
-					<li><a href="{{ site.app_url }}/terms-of-service">Terms of service</a></li>
-					<li><a href="{{ site.app_url }}/privacy-policy">Privacy policy</a></li>
-				</ul>
-			</div>
-		</div>
 	</div>
 
 	<div class="bottom">
 		<p class="rights">&copy; {{ site.time | date: "%Y" }} Conception AI. All rights reserved.</p>
-		<div class="compliance-badges">
-			<a aria-label="GDPR compliant" href="https://trust.reduck.ai" rel="noopener noreferrer" target="_blank">
-				<img class="compliance-badge" alt="" height="40" src="{{ '/assets/img/brands/gdpr.svg' | relative_url }}" width="40" />
-			</a>
-			<a aria-label="SOC 2 Type 1 compliant" href="https://trust.reduck.ai" rel="noopener noreferrer" target="_blank">
-				<img class="compliance-badge" alt="" height="40" src="{{ '/assets/img/brands/soc2.png' | relative_url }}" width="40" />
-			</a>
-			<a aria-label="CCPA compliant" href="https://trust.reduck.ai" rel="noopener noreferrer" target="_blank">
-				<img class="compliance-badge" alt="" height="40" src="{{ '/assets/img/brands/ccpa.svg' | relative_url }}" width="40" />
-			</a>
-		</div>
+		<nav class="legal" aria-label="Legal">
+			<a href="{{ site.app_url }}/terms-of-service">Terms of service</a>
+			<a href="{{ site.app_url }}/privacy-policy">Privacy policy</a>
+		</nav>
 	</div>
 </footer>

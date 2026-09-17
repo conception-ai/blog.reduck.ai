@@ -26,39 +26,17 @@ main.index {
 	width: 100%;
 }
 
-.page-header {
-	margin-bottom: 60px;
-	text-align: center;
-}
-
-.page-header h1 {
-	font-size: var(--font-size-title-large);
-	margin: 0;
-}
-
-/* box-decoration-break keeps the band unbroken when the title wraps to a second line. */
-.page-header .highlight {
-	background: var(--color-orange-500);
-	box-decoration-break: clone;
-	color: var(--color-grey-0);
-	display: inline;
-	padding: 2px 16px;
-}
-
-.page-header .subtitle {
-	color: var(--color-grey-400);
-	font-size: var(--font-size-title-small);
-	font-weight: 400;
-	line-height: 1.4;
-	margin: 16px 0 0;
-}
-
 .hero {
 	align-items: center;
 	display: grid;
 	gap: 40px;
 	grid-template-columns: 1.4fr 1fr;
 	margin-bottom: 60px;
+}
+
+/* `display: grid` above outranks what `hidden` alone would do. */
+.hero[hidden] {
+	display: none;
 }
 
 .hero .hero-cover-slot {
@@ -682,7 +660,7 @@ main.article > * {
 	background: var(--color-grey-800);
 	border-radius: 4px;
 	font-family: var(--font-mono);
-	font-size: var(--font-size-small);
+	font-size: inherit;
 	padding: 2px 6px;
 }
 
@@ -694,6 +672,11 @@ main.article > * {
 
 .prose .code-block {
 	margin: 0 0 28px;
+}
+
+/* Code reads at the size of the text around it, so a block is not a step down from the prose. */
+.prose .code-block pre {
+	font-size: inherit;
 }
 
 /* Kramdown puts a `code` inside the `pre`; the chrome for inline code must not reach it. */
@@ -729,14 +712,6 @@ main.article > * {
 }
 
 @media (width <= 640px) {
-	.page-header {
-		margin-bottom: 40px;
-	}
-
-	.page-header .subtitle {
-		font-size: var(--font-size-medium);
-	}
-
 	.grid {
 		grid-template-columns: 1fr;
 	}

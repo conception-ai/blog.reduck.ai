@@ -7,23 +7,8 @@ title: Blog
 {%- assign hero = posts | first -%}
 {%- assign listed = posts | shift -%}
 
-{%- comment -%}
-  Only the topics published posts actually use — the filter row shows no empty one.
-{%- endcomment -%}
-{%- assign used = "" | split: "" -%}
-{%- for post in listed -%}
-	{%- unless used contains post.category -%}
-		{%- assign used = used | push: post.category -%}
-	{%- endunless -%}
-{%- endfor -%}
-
 <main class="index">
 	<div class="content">
-		<header class="page-header">
-			<h1><span class="highlight">{{ site.title }}</span></h1>
-			<h2 class="subtitle">What we learn building browser infrastructure for AI agents</h2>
-		</header>
-
 		{%- unless hero -%}
 			{%- comment -%}
 			  Nothing published yet. A blog that answers with an empty page reads as a fault, so it
@@ -37,7 +22,16 @@ title: Blog
 		{%- endunless -%}
 
 		{%- if hero -%}
-			<section class="hero">
+			{%- comment -%}
+			  The lead post answers the topic filter like any other: a header link that names a
+			  topic must not leave a post of another topic standing above the grid.
+			{%- endcomment -%}
+			<section
+				class="hero"
+				data-hero
+				data-category="{{ hero.category }}"
+				data-search="{{ hero.title | append: ' ' | append: hero.description | append: ' ' | append: hero.author | append: ' ' | append: hero.category_label | downcase | escape }}"
+			>
 				<div class="hero-cover-slot">
 					<a class="hero-cover" href="{{ hero.url | relative_url }}">
 						{% include cover.html post=hero %}
@@ -72,20 +66,18 @@ title: Blog
 						<input aria-label="Search articles" data-filter-search placeholder="Search articles" type="search" />
 					</div>
 				</div>
-				<div class="select">
-					{% include icon.html name="tags" class="field-icon" %}
-					<select aria-label="Filter by category" data-filter-category>
-						<option value="all">All categories</option>
-						{%- for id in used -%}
-							{%- for category in site.categories -%}
-								{%- if category.id == id -%}
-									<option value="{{ category.id }}">{{ category.label }}</option>
-								{%- endif -%}
+				{%- if site.data.used_categories.size > 1 -%}
+					<div class="select">
+						{% include icon.html name="tags" class="field-icon" %}
+						<select aria-label="Filter by category" data-filter-category>
+							<option value="all">All categories</option>
+							{%- for category in site.data.used_categories -%}
+								<option value="{{ category.id }}">{{ category.label }}</option>
 							{%- endfor -%}
-						{%- endfor -%}
-					</select>
-					{% include icon.html name="chevron-right" class="chevron" %}
-				</div>
+						</select>
+						{% include icon.html name="chevron-right" class="chevron" %}
+					</div>
+				{%- endif -%}
 			</div>
 
 			<ul class="grid" data-grid>
@@ -94,6 +86,13 @@ title: Blog
 				{%- endfor -%}
 			</ul>
 
+		{%- endif -%}
+
+		{%- if hero -%}
+			{%- comment -%}
+			  Outside the block above: a header link can filter a one-post index down to nothing,
+			  and that page has no filter row to hold this.
+			{%- endcomment -%}
 			<div class="no-results" data-no-results hidden>
 				{% include icon.html name="box-open" %}
 				<h2>No articles found</h2>

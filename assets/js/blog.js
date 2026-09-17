@@ -8,36 +8,83 @@
 	const search = document.querySelector("[data-filter-search]");
 	const category = document.querySelector("[data-filter-category]");
 	const grid = document.querySelector("[data-grid]");
+	const hero = document.querySelector("[data-hero]");
 	const empty = document.querySelector("[data-no-results]");
+	const topicLinks = document.querySelectorAll("[data-category-link]");
 
-	if (grid) {
-		// The card carries the topic it claims and the line to match against, so filtering never
-		// has to read the markup a card is drawn from.
-		const cards = Array.from(grid.children, (item) => ({
-			item,
-			category: item.firstElementChild?.dataset.category ?? "",
-			text: item.firstElementChild?.dataset.search ?? ""
-		}));
+	if (grid || hero) {
+		// The lead post and every card carry the topic they claim and the line to match against, so
+		// filtering never has to read the markup a post is drawn from, and the lead is filtered by
+		// the same rule as the rest.
+		const posts = [];
+
+		if (hero) {
+			posts.push({
+				item: hero,
+				category: hero.dataset.category ?? "",
+				text: hero.dataset.search ?? ""
+			});
+		}
+
+		for (const item of grid?.children ?? []) {
+			posts.push({
+				item,
+				category: item.firstElementChild?.dataset.category ?? "",
+				text: item.firstElementChild?.dataset.search ?? ""
+			});
+		}
+
+		// The topic a header link carries arrives in the address, and an index holding a single
+		// post has no select to read it back from — so the chosen topic is held here and the
+		// select is one of the two ways to set it. A topic the header does not name is refused
+		// rather than filtered on, which would answer a hand-typed query with an empty page.
+		const topics = Array.from(topicLinks, (link) => link.dataset.categoryLink);
+		const arriving = new URLSearchParams(location.search).get("category");
+		let chosen = arriving && topics.includes(arriving) ? arriving : "all";
+
+		if (category && Array.from(category.options).some((option) => option.value === chosen)) {
+			category.value = chosen;
+		}
 
 		const apply = () => {
 			const query = (search?.value ?? "").trim().toLowerCase();
-			const chosen = category?.value ?? "all";
 			let shown = 0;
 
-			for (const card of cards) {
+			for (const post of posts) {
 				const visible =
-					(chosen === "all" || card.category === chosen) &&
-					(query === "" || card.text.includes(query));
-				card.item.hidden = !visible;
+					(chosen === "all" || post.category === chosen) &&
+					(query === "" || post.text.includes(query));
+				post.item.hidden = !visible;
 				if (visible) shown += 1;
 			}
 
-			grid.hidden = shown === 0;
+			// The grid answers for its own cards: the lead sits outside it and must not keep an
+			// empty frame open under itself.
+			if (grid) grid.hidden = Array.from(grid.children).every((item) => item.hidden);
 			if (empty) empty.hidden = shown !== 0;
+
+			for (const link of topicLinks) {
+				const on = link.dataset.categoryLink === chosen;
+				link.classList.toggle("toggled", on);
+				if (on) link.setAttribute("aria-current", "page");
+				else link.removeAttribute("aria-current");
+			}
+
+			// The topic the header shows is the one in the address, so a filtered index can be
+			// linked to and survives a reload.
+			const url = new URL(location.href);
+			if (chosen === "all") url.searchParams.delete("category");
+			else url.searchParams.set("category", chosen);
+			history.replaceState(null, "", url);
 		};
 
 		search?.addEventListener("input", apply);
-		category?.addEventListener("change", apply);
+		category?.addEventListener("change", () => {
+			chosen = category.value;
+			apply();
+		});
+
+		apply();
 	}
 
 	// The check icon a button swaps to once its copy lands — the same outline icon.html draws for

@@ -31,7 +31,7 @@ module ReduckBlog
 			collection = site.collections["articles"]
 			return if collection.nil?
 
-			labels = (site.config["categories"] || []).to_h { |c| [c["id"], c["label"]] }
+			labels = (site.data["categories"] || []).to_h { |c| [c["id"], c["label"]] }
 
 			collection.docs.each do |doc|
 				slug = File.basename(File.dirname(doc.relative_path))
@@ -60,6 +60,14 @@ module ReduckBlog
 			end
 
 			site.data["articles"] = listed(collection.docs)
+
+			# The topics a reader can actually reach, in the order `_data/categories.yml` declares
+			# them. A topic no published post claims is a filter that answers nothing, and a single
+			# topic is a choice that is not one — the templates draw no topic row below two.
+			claimed = site.data["articles"].map { |doc| doc.data["category"] }.uniq
+			site.data["used_categories"] = (site.data["categories"] || []).select do |category|
+				claimed.include?(category["id"])
+			end
 		end
 
 		private
