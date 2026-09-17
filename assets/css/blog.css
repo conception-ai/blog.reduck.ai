@@ -394,6 +394,27 @@ main.article > * {
 	width: 100%;
 }
 
+.article .back-link {
+	align-items: center;
+	color: var(--color-grey-500);
+	display: inline-flex;
+	font-size: var(--font-size-small);
+	font-weight: 500;
+	gap: 6px;
+	margin-bottom: 24px;
+	text-decoration: none;
+	transition: color 200ms;
+}
+
+.article .back-link .icon {
+	height: 0.85em;
+	width: 0.85em;
+}
+
+.article .back-link:hover {
+	color: var(--color-orange-400);
+}
+
 .article .hero-cover {
 	margin-bottom: 24px;
 }
