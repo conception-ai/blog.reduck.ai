@@ -66,7 +66,9 @@ For other MCP clients, see our [Onboarding Guide](https://docs.reduck.ai/other-c
 
 Start a new session and get going with your first automation. You can try a prompt like:
 
-> Using Reduck MCP, search on Google the top 3 latest posts of the week on "AI Agents" on LinkedIn. Then return the profiles of potential buyers of B2B AI agents.
+```
+Using Reduck MCP, search on Google the top 3 latest posts of the week on "AI Agents" on LinkedIn. Then return the profiles of potential buyers of B2B AI agents.
+```
 
 ## Key features
 
@@ -82,7 +84,9 @@ If our Official Script Library doesn't contain the exact scripts you need — sa
 
 Just prompt your agent to build a new script, for example:
 
-> Use Reduck MCP to create scripts for trends.google.com keywords.
+```
+Use Reduck MCP to create scripts for trends.google.com keywords.
+```
 
 Once done, your scripts can be discovered by your agent through Reduck MCP and found at [reduck.ai/projects](https://reduck.ai/projects/?utm_source=blog&utm_medium=referral&utm_campaign=introducing-reduck-mcp&utm_content=projects).
 
