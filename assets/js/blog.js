@@ -1,5 +1,5 @@
-// The two things the blog needs a browser for: the filter row on the index, and the share dialog
-// on an article. Everything else is served as it is read.
+// The three things the blog needs a browser for: the filter row on the index, the copy-link
+// button on an article, and the copy button on a snippet. Everything else is served as it is read.
 (() => {
 	"use strict";
 
@@ -40,56 +40,44 @@
 		category?.addEventListener("change", apply);
 	}
 
-	/* ------------------------------------------------------------ sharing */
+	// The check icon a button swaps to once its copy lands — the same outline icon.html draws for
+	// "check", redrawn here since this file runs with no Liquid to include it from.
+	const CHECK_ICON_PATH = '<path d="M4 12.5 9 17.5 20 6.5"/>';
 
-	const dialog = document.querySelector("[data-share-dialog]");
-	const trigger = document.querySelector("[data-share]");
+	/* ------------------------------------------------------------ copying the article's link */
 
-	if (dialog && trigger) {
-		const url = window.location.href;
-		const title = document.title;
+	const copyLink = document.querySelector("[data-copy-link]");
 
-		const field = dialog.querySelector("[data-share-url]");
-		if (field) field.value = url;
+	if (copyLink) {
+		const label = copyLink.querySelector("[data-copy-link-label]");
+		const svg = copyLink.querySelector("svg");
+		const linkIcon = svg?.innerHTML;
+		const before = label?.textContent;
+		let revertTimer = null;
 
-		const targets = {
-			x: `https://x.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
-			linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
-		};
-
-		for (const link of dialog.querySelectorAll("[data-share-target]")) {
-			link.href = targets[link.dataset.shareTarget] ?? url;
-		}
-
-		trigger.addEventListener("click", () => dialog.showModal());
-
-		// The dialog holds no cross, so the backdrop is what closes it: the click that lands on
-		// the dialog itself rather than on anything within it.
-		dialog.addEventListener("click", (event) => {
-			if (event.target === dialog) dialog.close();
-		});
-
-		dialog.querySelector("[data-share-copy]")?.addEventListener("click", async (event) => {
-			const button = event.currentTarget;
+		copyLink.addEventListener("click", async () => {
 			try {
-				await navigator.clipboard.writeText(url);
+				await navigator.clipboard.writeText(copyLink.dataset.copyLink);
 			} catch {
-				field?.select();
+				// Blocked by permission or an insecure context — leave the button as it was rather
+				// than report a copy that did not happen.
 				return;
 			}
-			const before = button.textContent;
-			button.textContent = "Copied";
-			setTimeout(() => {
-				button.textContent = before;
+
+			clearTimeout(revertTimer);
+			if (svg) svg.innerHTML = CHECK_ICON_PATH;
+			if (label) label.textContent = "Copied";
+			copyLink.classList.add("copied");
+			revertTimer = setTimeout(() => {
+				if (svg && linkIcon) svg.innerHTML = linkIcon;
+				if (label && before) label.textContent = before;
+				copyLink.classList.remove("copied");
+				revertTimer = null;
 			}, 2000);
 		});
 	}
 
 	/* ------------------------------------------------------------ copying a snippet */
-
-	// The check icon a button swaps to once its copy lands — the same outline icon.html draws for
-	// "check", redrawn here since this file runs with no Liquid to include it from.
-	const CHECK_ICON_PATH = '<path d="M4 12.5 9 17.5 20 6.5"/>';
 
 	for (const pre of document.querySelectorAll(".prose pre")) {
 		// The wrapper, not `pre` itself, carries `position: relative`: `pre` is the box that

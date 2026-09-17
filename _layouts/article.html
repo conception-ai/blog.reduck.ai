@@ -4,7 +4,13 @@ layout: default
 
 <main class="article">
 	<article class="content">
-		<a class="back-link" href="{{ '/' | relative_url }}">{% include icon.html name="arrow-left" %} Back to blog</a>
+		<nav class="breadcrumb crumbs" aria-label="Breadcrumb">
+			<ol>
+				<li><a href="{{ '/' | relative_url }}">Blog</a></li>
+				<li class="separator" aria-hidden="true">{% include icon.html name="chevron-right" %}</li>
+				<li><span class="current" aria-current="page">{{ page.title }}</span></li>
+			</ol>
+		</nav>
 
 		{%- if page.hero_url -%}
 			<div class="hero-cover">{% include cover.html post=page %}</div>
@@ -14,10 +20,14 @@ layout: default
 			<span class="label">Written by</span>
 			<span class="label">Published on</span>
 			<span class="label">Category</span>
-			<span class="share">
-				<button class="btn medium btn-secondary" data-share type="button">
-					{% include icon.html name="share" %}
-					Share
+			<span class="copy-link">
+				{%- comment -%}
+				  The canonical address, not the one the reader is on: a link copied from a preview
+				  host has to point at the post as a reader will find it.
+				{%- endcomment -%}
+				<button class="btn medium btn-secondary" data-copy-link="{{ page.url | absolute_url }}" type="button">
+					{% include icon.html name="link" %}
+					<span data-copy-link-label>Copy link</span>
 				</button>
 			</span>
 			<span class="value">{{ page.author }}</span>
@@ -31,8 +41,6 @@ layout: default
 	</article>
 	{% include footer.html %}
 </main>
-
-{% include share.html %}
 
 {%- unless page.draft -%}
 	<script type="application/ld+json">
