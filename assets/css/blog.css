@@ -368,13 +368,9 @@ main.index {
 	width: 100%;
 }
 
-.cover.wide {
-	aspect-ratio: 16 / 10;
-}
-
-/* A hero image that is itself a wide banner (logo lockup + tagline, e.g. Introducing Reduck MCP's
-   cover.png): give it a box matching its own aspect ratio so object-fit: cover never crops it,
-   instead of forcing it into the 16/9 (article) or 16/10 (homepage hero) box other posts use. */
+/* A hero image that is itself a wide banner — a logo lockup and a tagline on a strip — set against
+   a box of its own proportions, so `object-fit: cover` has nothing to crop. Every other cover is
+   16/9, wherever it appears. */
 .cover.banner {
 	aspect-ratio: 2.5 / 1;
 }
