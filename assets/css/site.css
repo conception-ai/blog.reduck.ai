@@ -152,6 +152,51 @@
 	color: var(--color-grey-0);
 }
 
+/* ---------------------------------------------------------------- the breadcrumb */
+
+.breadcrumb ol {
+	align-items: center;
+	display: flex;
+	gap: 8px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.breadcrumb a {
+	color: var(--color-grey-400);
+	font-size: var(--font-size-small);
+	font-weight: 500;
+	text-decoration: none;
+	transition: color 0.15s;
+}
+
+.breadcrumb a:hover {
+	color: var(--color-grey-200);
+}
+
+.breadcrumb a:focus-visible {
+	outline: 2px solid var(--color-orange-400);
+	outline-offset: 2px;
+}
+
+.breadcrumb .current {
+	color: var(--color-orange-500);
+	font-size: var(--font-size-small);
+	font-weight: 600;
+}
+
+.breadcrumb .separator {
+	color: var(--color-grey-600);
+	display: flex;
+	font-size: 10px;
+}
+
+.breadcrumb .separator .icon {
+	height: 1em;
+	width: 1em;
+}
+
 /* ---------------------------------------------------------------- the search field */
 
 .field {
