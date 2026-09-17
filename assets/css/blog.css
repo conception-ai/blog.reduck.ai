@@ -673,147 +673,30 @@ main.article > * {
 	padding: 2px 6px;
 }
 
-/* Kramdown wraps a fence in a div of its own, which would carry the prose's paragraph spacing
-   on top of the frame's. The frame is the `pre`; the wrapper only holds it. */
-.prose .highlighter-rouge,
-.prose div.highlight {
+/* Kramdown's own wrapper would carry the prose's paragraph spacing on top of the frame's, so the
+   article's rhythm is set on the frame itself — everything else about it is `.code-block`. */
+.prose .highlighter-rouge {
 	margin: 0;
 }
 
-.prose pre {
-	background: var(--color-grey-800);
-	border: 1px solid var(--color-grey-700);
-	border-radius: 8px;
-	font-size: var(--font-size-small);
-	line-height: 1.6;
+.prose .code-block {
 	margin: 0 0 28px;
-	overflow-x: auto;
-	padding: 16px 20px;
 }
 
-.prose pre code {
-	background: transparent;
-	color: var(--color-grey-100);
-	line-height: 1.6;
+/* Kramdown puts a `code` inside the `pre`; the chrome for inline code must not reach it. */
+.prose .code-block code {
+	background: none;
+	border-radius: 0;
+	font: inherit;
 	padding: 0;
-	tab-size: 4;
-	white-space: pre;
 }
 
-/* Rouge's token classes, on the palette the app gives Prism's. */
-.prose pre .c,
-.prose pre .c1,
-.prose pre .cm,
-.prose pre .cd,
-.prose pre .cp {
-	color: var(--color-grey-400);
-}
+/* ---------------------------------------------------------------- a copy that landed */
 
-.prose pre .s,
-.prose pre .s1,
-.prose pre .s2,
-.prose pre .se,
-.prose pre .sb,
-.prose pre .sx,
-.prose pre .dl,
-.prose pre .sa {
-	color: var(--color-blue-300);
-}
-
-.prose pre .k,
-.prose pre .kd,
-.prose pre .kn,
-.prose pre .kr,
-.prose pre .kc,
-.prose pre .kt,
-.prose pre .kp,
-.prose pre .nb,
-.prose pre .bp {
-	color: var(--color-purple-300);
-}
-
-.prose pre .nf,
-.prose pre .nc,
-.prose pre .nx,
-.prose pre .py,
-.prose pre .na,
-.prose pre .nt {
-	color: var(--color-green-300);
-}
-
-.prose pre .m,
-.prose pre .mi,
-.prose pre .mf,
-.prose pre .mh,
-.prose pre .nv,
-.prose pre .vg,
-.prose pre .no {
-	color: var(--color-orange-300);
-}
-
-.prose pre .p,
-.prose pre .o,
-.prose pre .ow {
-	color: var(--color-grey-300);
-}
-
-/* ---------------------------------------------------------------- code copy buttons */
-
-/* blog.js wraps every `.prose pre` in this on load. A flex row gives the button its own
-   reserved column beside the pre instead of floating it over the pre's scrolling content —
-   so it can never sit on top of code text, at any scroll position or viewport width. The
-   wrapper carries the 28px article rhythm that `.prose pre` used to contribute on its own;
-   the pre's own bottom margin is zeroed out here so the gap isn't doubled. */
-.prose .code-copy {
-	align-items: flex-start;
-	display: flex;
-	gap: 12px;
-	margin-bottom: 28px;
-}
-
-.prose .code-copy pre {
-	flex: 1;
-	margin-bottom: 0;
-	min-width: 0;
-}
-
-.prose .code-copy-btn {
-	align-items: center;
-	background: var(--color-grey-900);
-	border: 1px solid var(--color-grey-700);
-	border-radius: 6px;
-	color: var(--color-grey-400);
-	display: inline-flex;
-	flex-shrink: 0;
-	height: 28px;
-	justify-content: center;
-	transition:
-		background 200ms,
-		border-color 200ms,
-		color 200ms;
-	width: 28px;
-}
-
-.prose .code-copy-btn:hover,
-.prose .code-copy-btn:focus-visible {
-	background: var(--color-grey-700);
-	border-color: var(--color-grey-500);
-	color: var(--color-grey-50);
-}
-
-.article .meta .copy-link .btn.copied {
+.article .meta .copy-link .btn.copied,
+.prose .code-block .copy.copied {
 	border-color: var(--color-green-600);
 	color: var(--color-green-400);
-}
-
-.prose .code-copy-btn.copied {
-	border-color: var(--color-green-600);
-	color: var(--color-green-400);
-}
-
-.prose .code-copy-btn .icon {
-	height: 14px;
-	width: 14px;
 }
 
 /* ---------------------------------------------------------------- narrow windows */

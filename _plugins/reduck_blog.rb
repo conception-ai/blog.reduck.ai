@@ -201,3 +201,14 @@ module ReduckBlog
 		end
 	end
 end
+
+# Kramdown wraps a fence in `div.highlight` holding a `pre`: a frame that does not scroll around a
+# box that does — the same two parts `CodeBlock.svelte` is built from. Wearing `code-block` here
+# means the fence takes that component's chrome from `site.css` rather than a second copy of it
+# written against `.prose pre`, and it is the frame, not the scrolling `pre`, that the copy button
+# is positioned against.
+Jekyll::Hooks.register :documents, :post_render do |doc|
+	next unless doc.collection.label == "articles"
+
+	doc.output = doc.output.gsub('<div class="highlight">', '<div class="highlight code-block">')
+end
