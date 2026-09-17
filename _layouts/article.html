@@ -4,6 +4,8 @@ layout: default
 
 <main class="article">
 	<article class="content">
+		<a class="back-link" href="{{ '/' | relative_url }}">{% include icon.html name="arrow-left" %} Back to blog</a>
+
 		{%- if page.hero_url -%}
 			<div class="hero-cover">{% include cover.html post=page %}</div>
 		{%- endif -%}
