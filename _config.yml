@@ -18,18 +18,6 @@ collections:
         # written, and the default puts it under an `/articles/` prefix this site has no room for.
         permalink: /:path/
 
-# The topics a post can claim. A post names one; it cannot invent one, and the row of filters on
-# the index shows only the topics published posts actually use.
-categories:
-    - id: product
-      label: Product
-    - id: engineering
-      label: Engineering
-    - id: tutorial
-      label: Tutorial
-    - id: company
-      label: Company
-
 markdown: kramdown
 
 kramdown:

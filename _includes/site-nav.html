@@ -1,22 +1,37 @@
 {%- comment -%}
-  The reduck.ai header, restated. Every link leaves for the app: this is a site of its own, so
-  there is no client-side route to take and no session to read — "Open app" asks for /projects,
-  which the app turns into the reader's own project, through sign-in when there is no session yet.
+  The button leaves for the app: this is a site of its own, so there is no client-side route to
+  take and no session to read — "Open app" asks for /projects, which the app turns into the
+  reader's own project, through sign-in when there is no session yet. Beside it sit the blog's own
+  topics, not the app's product links.
+
+  A topic has no page of its own: the index filters its grid in the browser, so a link carries the
+  topic as a query the index reads back (assets/js/blog.js).
+
+  The row appears on its own once a second topic is published. Below that every post answers to
+  the same topic, and a row of one is a choice a reader cannot make.
 {%- endcomment -%}
 <header class="site-header">
 	<a class="lockup" aria-label="Reduck blog homepage" href="{{ '/' | relative_url }}">
 		<img class="logo" alt="Reduck blog" height="41" src="{{ '/assets/img/reduck_blog.svg' | relative_url }}" width="270" />
 	</a>
 
-	<nav class="primary" aria-label="Main">
-		<ul>
-			<li><a class="btn medium btn-ghost" href="{{ site.app_url }}/#how-it-works">How it works</a></li>
-			<li><a class="btn medium btn-ghost" href="{{ site.app_url }}/use-cases">Use cases</a></li>
-			<li><a class="btn medium btn-ghost" href="{{ site.app_url }}/explore/scripts">Scripts</a></li>
-			<li><a class="btn medium btn-ghost" href="{{ site.app_url }}/pricing">Pricing</a></li>
-			<li><a class="btn medium btn-ghost" href="{{ site.discord_url }}" rel="noopener noreferrer" target="_blank">Community</a></li>
-		</ul>
-	</nav>
+	{%- if site.data.used_categories.size > 1 -%}
+		<nav class="primary" aria-label="Topics">
+			<ul>
+				{%- for category in site.data.used_categories -%}
+					<li>
+						<a
+							class="btn medium btn-ghost{% if page.category == category.id %} toggled{% endif %}"
+							{% if page.category == category.id %}aria-current="page"{% endif %}
+							data-category-link="{{ category.id }}"
+							href="{{ '/' | relative_url }}?category={{ category.id }}"
+							>{{ category.label }}</a
+						>
+					</li>
+				{%- endfor -%}
+			</ul>
+		</nav>
+	{%- endif -%}
 
 	<nav aria-label="User account">
 		<ul>
@@ -41,15 +56,18 @@
 			Open app
 		</a>
 	</div>
-	<nav class="links" aria-label="Mobile navigation">
-		<a class="nav-link" href="{{ site.app_url }}/#how-it-works">How it works</a>
-		<hr />
-		<a class="nav-link" href="{{ site.app_url }}/use-cases">Use cases</a>
-		<hr />
-		<a class="nav-link" href="{{ site.app_url }}/explore/scripts">Scripts</a>
-		<hr />
-		<a class="nav-link" href="{{ site.app_url }}/pricing">Pricing</a>
-		<hr />
-		<a class="nav-link" href="{{ site.discord_url }}" rel="noopener noreferrer" target="_blank">Community</a>
-	</nav>
+	{%- if site.data.used_categories.size > 1 -%}
+		<nav class="links" aria-label="Topics">
+			{%- for category in site.data.used_categories -%}
+				{%- unless forloop.first -%}<hr />{%- endunless -%}
+				<a
+					class="nav-link{% if page.category == category.id %} toggled{% endif %}"
+					{% if page.category == category.id %}aria-current="page"{% endif %}
+					data-category-link="{{ category.id }}"
+					href="{{ '/' | relative_url }}?category={{ category.id }}"
+					>{{ category.label }}</a
+				>
+			{%- endfor -%}
+		</nav>
+	{%- endif -%}
 </div>

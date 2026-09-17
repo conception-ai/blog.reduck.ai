@@ -315,6 +315,13 @@
 	margin: 0 auto;
 }
 
+/* The topic row takes the middle and pushes the account nav to the end of the bar. With no second
+   topic published there is no row, and the account nav — first of its type by then — has to claim
+   that space itself. */
+.site-header nav:first-of-type:not(.primary) {
+	margin-left: auto;
+}
+
 .site-header ul {
 	align-items: center;
 	display: flex;
@@ -411,6 +418,7 @@
 .site-footer .top {
 	align-items: flex-start;
 	display: flex;
+	gap: 32px;
 	justify-content: space-between;
 }
 
@@ -421,10 +429,19 @@
 	gap: 16px;
 }
 
-.site-footer .left img.logo {
+.site-footer .lockup {
+	display: flex;
+}
+
+.site-footer .lockup img.logo {
 	height: 32px;
 	object-fit: contain;
+	transition: opacity 200ms;
 	width: auto;
+}
+
+.site-footer .lockup:hover img.logo {
+	opacity: 0.8;
 }
 
 .site-footer .socials {
@@ -451,13 +468,19 @@
 	width: auto;
 }
 
-.site-footer .socials a.contact {
+/* A link in the row that is a word rather than a mark. */
+.site-footer .socials a.text {
 	font-size: var(--font-size-small);
 	font-weight: 500;
 }
 
+/* The block carries Discord wide, so its mark stays out of the row until the block goes. */
+.site-footer .socials a.discord-mark {
+	display: none;
+}
+
 .site-footer .discord {
-	align-items: center;
+	align-items: flex-end;
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
@@ -466,50 +489,6 @@
 .site-footer .discord span {
 	color: var(--color-grey-400);
 	font-size: var(--font-size-small);
-}
-
-.site-footer .right {
-	align-items: flex-start;
-	display: flex;
-	gap: 48px;
-}
-
-.site-footer .group {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-}
-
-.site-footer .group h4 {
-	color: var(--color-grey-50);
-	font-size: var(--font-size-medium);
-	font-weight: 600;
-	margin: 0;
-}
-
-.site-footer .group ul {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-.site-footer .group a {
-	color: var(--color-grey-400);
-	font-size: var(--font-size-body);
-	font-weight: 500;
-	text-decoration: none;
-	transition: color 200ms;
-
-	/* "Trust Center" and "Terms of service" otherwise break across lines as soon as the columns
-	   tighten, which reads as a layout fault rather than as a choice. */
-	white-space: nowrap;
-}
-
-.site-footer .group a:hover {
-	color: var(--color-grey-50);
 }
 
 .site-footer .bottom {
@@ -526,57 +505,39 @@
 	font-size: var(--font-size-caption);
 }
 
-.site-footer .compliance-badges {
+.site-footer .legal {
 	display: flex;
-	gap: 12px;
+	gap: 24px;
 }
 
-.site-footer .compliance-badges a {
-	opacity: 0.8;
-	transition: opacity 200ms;
+.site-footer .legal a {
+	color: var(--color-grey-500);
+	font-size: var(--font-size-caption);
+	text-decoration: none;
+	transition: color 200ms;
+	white-space: nowrap;
 }
 
-.site-footer .compliance-badges a:hover {
-	opacity: 1;
+.site-footer .legal a:hover {
+	color: var(--color-grey-50);
 }
 
-.site-footer .compliance-badge {
-	height: 40px;
-	width: auto;
-}
-
-/* The single row needs about 880px for its four blocks plus 128px of padding, so it only fits
-   above about 1010px. Stacking later leaves a band where the columns are squeezed together. */
-@media (width <= 1200px) {
+/* Both rows run out of room for two ends where the header runs out of room for its own. */
+@media (width <= 767px) {
 	.site-footer {
 		padding: 32px 24px;
 	}
 
 	.site-footer .top {
-		align-items: center;
 		flex-direction: column;
-		gap: 48px;
 	}
 
-	.site-footer .left {
-		align-items: center;
-		order: 1;
+	.site-footer .socials a.discord-mark {
+		display: inline-flex;
 	}
 
-	/* Wrapping flex rather than a grid: with `justify-content: center` each wrapped line centres
-	   on its own, so a group left over on the last row sits in the middle rather than orphaned in
-	   the first column. */
-	.site-footer .right {
-		align-items: flex-start;
-		flex-wrap: wrap;
-		gap: 32px 48px;
-		justify-content: center;
-		width: 100%;
-	}
-
-	.site-footer .group {
-		align-items: center;
-		text-align: center;
+	.site-footer .discord {
+		display: none;
 	}
 
 	.site-footer .bottom {
