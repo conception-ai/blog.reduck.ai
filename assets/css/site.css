@@ -105,6 +105,13 @@
 	width: 1em;
 }
 
+/* A brand mark is drawn on a viewBox of its own and is rarely square, so its width follows its
+   height rather than being forced to match it. */
+.icon.brand {
+	height: 1em;
+	width: auto;
+}
+
 /* The nav row of a side panel: full width, left aligned, quiet until it is the open page. */
 .nav-link {
 	align-items: center;
@@ -422,7 +429,7 @@
 
 .site-footer .socials .icon {
 	height: 1em;
-	width: 1em;
+	width: auto;
 }
 
 .site-footer .socials a.contact {
@@ -500,9 +507,28 @@
 	font-size: var(--font-size-caption);
 }
 
-/* The single row needs about 795px for its three blocks plus 128px of padding, so it only fits
-   above about 1050px. Stacking later leaves a band where the columns are squeezed together. */
-@media (width <= 1080px) {
+.site-footer .compliance-badges {
+	display: flex;
+	gap: 12px;
+}
+
+.site-footer .compliance-badges a {
+	opacity: 0.8;
+	transition: opacity 200ms;
+}
+
+.site-footer .compliance-badges a:hover {
+	opacity: 1;
+}
+
+.site-footer .compliance-badge {
+	height: 40px;
+	width: auto;
+}
+
+/* The single row needs about 880px for its four blocks plus 128px of padding, so it only fits
+   above about 1010px. Stacking later leaves a band where the columns are squeezed together. */
+@media (width <= 1200px) {
 	.site-footer {
 		padding: 32px 24px;
 	}
@@ -518,7 +544,11 @@
 		order: 1;
 	}
 
+	/* Wrapping flex rather than a grid: with `justify-content: center` each wrapped line centres
+	   on its own, so a group left over on the last row sits in the middle rather than orphaned in
+	   the first column. */
 	.site-footer .right {
+		align-items: flex-start;
 		flex-wrap: wrap;
 		gap: 32px 48px;
 		justify-content: center;

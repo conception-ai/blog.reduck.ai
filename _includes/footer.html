@@ -4,10 +4,10 @@
 			<img class="logo" alt="Reduck" height="32" src="{{ '/assets/img/logo-full-white.png' | relative_url }}" width="173" />
 			<nav class="socials" aria-label="Social links">
 				<a aria-label="X" href="https://x.com/ReduckAI" rel="noopener noreferrer" target="_blank">
-					<img class="icon" alt="" height="16" src="{{ '/assets/img/brands/x.svg' | relative_url }}" width="16" />
+					{% include icon.html name="x" %}
 				</a>
 				<a aria-label="LinkedIn" href="https://www.linkedin.com/company/reduck-ai" rel="noopener noreferrer" target="_blank">
-					<img class="icon" alt="" height="16" src="{{ '/assets/img/brands/linkedin.svg' | relative_url }}" width="16" />
+					{% include icon.html name="linkedin" %}
 				</a>
 				<a aria-label="YouTube" href="https://www.youtube.com/@ReduckAI" rel="noopener noreferrer" target="_blank">
 					{% include icon.html name="youtube" %}
@@ -31,7 +31,16 @@
 					<li><a href="{{ site.app_url }}/use-cases">Use cases</a></li>
 					<li><a href="{{ site.app_url }}/explore/scripts">Scripts</a></li>
 					<li><a href="{{ site.app_url }}/pricing">Pricing</a></li>
-					<li><a href="https://docs.reduck.ai">Docs</a></li>
+				</ul>
+			</div>
+			<div class="group">
+				<h4>Agents</h4>
+				<ul>
+					<li><a href="{{ site.app_url }}/browser-automation/claude">Claude</a></li>
+					<li><a href="{{ site.app_url }}/browser-automation/codex">Codex</a></li>
+					<li><a href="{{ site.app_url }}/browser-automation/chatgpt">ChatGPT</a></li>
+					<li><a href="{{ site.app_url }}/browser-automation/openclaw">OpenClaw</a></li>
+					<li><a href="{{ site.app_url }}/browser-automation/hermes">Hermes</a></li>
 				</ul>
 			</div>
 			<div class="group">
@@ -54,5 +63,16 @@
 
 	<div class="bottom">
 		<p class="rights">&copy; {{ site.time | date: "%Y" }} Conception AI. All rights reserved.</p>
+		<div class="compliance-badges">
+			<a aria-label="GDPR compliant" href="https://trust.reduck.ai" rel="noopener noreferrer" target="_blank">
+				<img class="compliance-badge" alt="" height="40" src="{{ '/assets/img/brands/gdpr.svg' | relative_url }}" width="40" />
+			</a>
+			<a aria-label="SOC 2 Type 1 compliant" href="https://trust.reduck.ai" rel="noopener noreferrer" target="_blank">
+				<img class="compliance-badge" alt="" height="40" src="{{ '/assets/img/brands/soc2.png' | relative_url }}" width="40" />
+			</a>
+			<a aria-label="CCPA compliant" href="https://trust.reduck.ai" rel="noopener noreferrer" target="_blank">
+				<img class="compliance-badge" alt="" height="40" src="{{ '/assets/img/brands/ccpa.svg' | relative_url }}" width="40" />
+			</a>
+		</div>
 	</div>
 </footer>
