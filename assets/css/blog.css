@@ -323,6 +323,13 @@ main.index {
 	aspect-ratio: 16 / 10;
 }
 
+/* A hero image that is itself a wide banner (logo lockup + tagline, e.g. Introducing Reduck MCP's
+   cover.png): give it a box matching its own aspect ratio so object-fit: cover never crops it,
+   instead of forcing it into the 16/9 (article) or 16/10 (homepage hero) box other posts use. */
+.cover.banner {
+	aspect-ratio: 2.5 / 1;
+}
+
 /* Warms the empty gradient. Suppressed behind an image, which needs no help. */
 .cover::before {
 	background: radial-gradient(

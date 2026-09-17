@@ -4,7 +4,7 @@
 
   Usage: {% include cover.html post=post wide=true %}
 {%- endcomment -%}
-<div class="cover{% if include.wide %} wide{% endif %}{% if include.post.hero_url %} has-image{% endif %}">
+<div class="cover{% if include.wide %} wide{% endif %}{% if include.post.hero_url %} has-image{% endif %}{% if include.post.heroBanner %} banner{% endif %}">
 	{%- if include.post.hero_url -%}
 		<img alt="{{ include.post.title }}" height="450" loading="lazy" src="{{ include.post.hero_url | relative_url }}" width="800" />
 	{%- else -%}
