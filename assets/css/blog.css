@@ -614,7 +614,7 @@ main.article > * {
 /* Kramdown wraps a fence in a div of its own, which would carry the prose's paragraph spacing
    on top of the frame's. The frame is the `pre`; the wrapper only holds it. */
 .prose .highlighter-rouge,
-.prose .highlight {
+.prose div.highlight {
 	margin: 0;
 }
 
