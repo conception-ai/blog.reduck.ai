@@ -368,13 +368,6 @@ main.index {
 	width: 100%;
 }
 
-/* A hero image that is itself a wide banner — a logo lockup and a tagline on a strip — set against
-   a box of its own proportions, so `object-fit: cover` has nothing to crop. Every other cover is
-   16/9, wherever it appears. */
-.cover.banner {
-	aspect-ratio: 2.5 / 1;
-}
-
 /* Warms the empty gradient. Suppressed behind an image, which needs no help. */
 .cover::before {
 	background: radial-gradient(
