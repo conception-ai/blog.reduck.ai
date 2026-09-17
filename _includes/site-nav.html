@@ -1,11 +1,11 @@
 {%- comment -%}
   The reduck.ai header, restated. Every link leaves for the app: this is a site of its own, so
-  there is no client-side route to take and no session to read — "Sign In" opens the app's own
-  panel the way the header's does there.
+  there is no client-side route to take and no session to read — "Open app" asks for /projects,
+  which the app turns into the reader's own project, through sign-in when there is no session yet.
 {%- endcomment -%}
 <header class="site-header">
-	<a class="lockup" aria-label="Reduck homepage" href="{{ site.app_url }}">
-		<img alt="Reduck" height="32" src="{{ '/assets/img/logo-full-white.png' | relative_url }}" width="130" />
+	<a class="lockup" aria-label="Reduck blog homepage" href="{{ '/' | relative_url }}">
+		<img class="logo" alt="Reduck blog" height="41" src="{{ '/assets/img/reduck_blog.svg' | relative_url }}" width="270" />
 	</a>
 
 	<nav class="primary" aria-label="Main">
@@ -20,8 +20,12 @@
 
 	<nav aria-label="User account">
 		<ul>
-			<li><a class="btn medium btn-secondary" href="https://form.reduck.ai" rel="noopener noreferrer" target="_blank">Contact us</a></li>
-			<li><a class="btn medium btn-primary" href="{{ site.app_url }}/#signin">Sign In</a></li>
+			<li>
+				<a class="btn medium btn-primary open-app" href="{{ site.app_url }}/projects">
+					{% include icon.html name="objects-column" %}
+					Open app
+				</a>
+			</li>
 		</ul>
 	</nav>
 
@@ -32,8 +36,10 @@
 
 <div class="mobile-menu" id="site-menu" data-site-menu hidden>
 	<div class="cta">
-		<a class="btn large btn-secondary" href="https://form.reduck.ai" rel="noopener noreferrer" target="_blank">Contact us</a>
-		<a class="btn large btn-primary" href="{{ site.app_url }}/#signin">Sign In</a>
+		<a class="btn large btn-primary open-app" href="{{ site.app_url }}/projects">
+			{% include icon.html name="objects-column" %}
+			Open app
+		</a>
 	</div>
 	<nav class="links" aria-label="Mobile navigation">
 		<a class="nav-link" href="{{ site.app_url }}/#how-it-works">How it works</a>

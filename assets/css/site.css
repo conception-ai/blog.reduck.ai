@@ -281,6 +281,12 @@
 	z-index: var(--z-header);
 }
 
+/* The way into the app is the one button on the bar, so it carries a little more weight than
+   the rest of the set. */
+.open-app {
+	font-weight: 600;
+}
+
 .site-header .lockup {
 	align-items: center;
 	border-radius: 4px;
@@ -289,10 +295,16 @@
 	text-decoration: none;
 }
 
-.site-header .lockup img {
+/* The mark stands as tall as the one on reduck.ai's own bar, which is what 29.7px of box
+   comes to once the site name has its room under the baseline. */
+.site-header .lockup .logo {
 	display: block;
-	height: auto;
-	width: 130px;
+	height: 29.7px;
+
+	/* The mark reads as centred on the bar a touch below the middle. */
+	position: relative;
+	top: 2px;
+	width: auto;
 }
 
 .site-header nav {
@@ -358,6 +370,13 @@
 	border-top: 1px solid var(--color-grey-700);
 	margin: 0;
 	width: 100%;
+}
+
+/* The mark shrinks where the bar does, at the width the docs bar shrinks its own. */
+@media (width <= 640px) {
+	.site-header .lockup .logo {
+		height: 22.8px;
+	}
 }
 
 @media (width <= 767px) {
