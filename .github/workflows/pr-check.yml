@@ -1,0 +1,34 @@
+name: PR Check
+
+# What gates a merge. A push to `main` is published, so a build that fails there fails after the
+# fact — this runs the same build on the pull request, where it still costs nothing to fix.
+on:
+    pull_request:
+        branches: [main]
+        types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+    contents: read
+
+concurrency:
+    group: pr-check-${{ github.head_ref }}
+    cancel-in-progress: true
+
+jobs:
+    build:
+        name: Build blog
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: ruby/setup-ruby@v1
+              with:
+                  ruby-version: "3.3"
+                  bundler-cache: true
+
+            # `_plugins/reduck_blog.rb` stops the build on a cover that is not 16/9, so this is
+            # also what keeps every post's cover the same shape.
+            - name: Build
+              env:
+                  JEKYLL_ENV: production
+              run: bundle exec jekyll build

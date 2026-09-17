@@ -79,27 +79,25 @@
 
 	/* ------------------------------------------------------------ copying a snippet */
 
-	for (const pre of document.querySelectorAll(".prose pre")) {
-		// The wrapper, not `pre` itself, carries `position: relative`: `pre` is the box that
-		// scrolls on a wide snippet, and a button positioned against it would scroll away with the
-		// code. The wrapper never scrolls, so the button stays pinned to its corner.
-		const wrap = document.createElement("div");
-		wrap.className = "code-copy";
-		pre.replaceWith(wrap);
-		wrap.appendChild(pre);
+	// The button belongs to the frame, not to the `pre` inside it: the `pre` is what scrolls on a
+	// wide snippet, and a button positioned against it would scroll away with the code. The frame
+	// holds 42px of padding on its right for the button to sit in, so the two never overlap.
+	for (const frame of document.querySelectorAll(".prose .code-block")) {
+		const pre = frame.querySelector("pre");
+		if (!pre) continue;
 
 		const button = document.createElement("button");
 		button.type = "button";
-		button.className = "code-copy-btn";
+		button.className = "btn small btn-ghost icon-only copy";
 		button.setAttribute("aria-label", "Copy code");
 		button.innerHTML =
 			'<svg class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><rect height="12" rx="2" width="12" x="9" y="9"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>';
-		wrap.appendChild(button);
+		frame.appendChild(button);
 
-		// Captured once, before any click can happen — reading the icon back out of the DOM
-		// inside the click handler would, on a second click that lands while the first click's
-		// revert timer is still pending, capture the already-swapped checkmark instead of the
-		// true original and "revert" to it permanently.
+		// Captured once, before any click can happen — reading the icon back out of the DOM inside
+		// the click handler would, on a second click that lands while the first click's revert
+		// timer is still pending, capture the already-swapped checkmark instead of the true
+		// original and "revert" to it permanently.
 		const svg = button.querySelector("svg");
 		const originalIcon = svg?.innerHTML;
 		let revertTimer = null;

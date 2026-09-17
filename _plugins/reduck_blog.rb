@@ -13,6 +13,16 @@ module ReduckBlog
 	# lines; this only stops a long first paragraph reaching the index whole.
 	EXCERPT_LIMIT = 320
 
+	# Every cover is drawn at 16/9, the one shape the index, a card and the article all give it. A
+	# file at any other ratio is cropped, and cropped differently in each of the three, so the post
+	# looks like a different post depending on where it is seen. The build stops rather than
+	# publish that.
+	COVER_RATIO = 16.0 / 9.0
+
+	# Enough room for a rounding to a whole pixel and nothing more: a shape a reader would notice
+	# is a shape that fails.
+	COVER_TOLERANCE = 0.005
+
 	class Generator < Jekyll::Generator
 		safe true
 		priority :high
@@ -33,9 +43,17 @@ module ReduckBlog
 				# A hero image is written beside the post that uses it, so its source is a bare
 				# file name; the index and the head read it from elsewhere and need the path.
 				hero = doc.data["heroImage"]
-				doc.data["hero_url"] = hero_url(site, slug, hero) if hero
+				if hero
+					check_cover_ratio(doc, slug, hero)
+					doc.data["hero_url"] = hero_url(site, slug, hero)
+				end
 
 				doc.data["excerpt_text"] = excerpt(doc)
+
+				# A draft answers `noindex` and is absent from the index and the feed. Submitting
+				# it in the sitemap at the same time asks a crawler to fetch a page it is then told
+				# not to keep — `jekyll-sitemap` lists every document until one says otherwise.
+				doc.data["sitemap"] = false if doc.data["draft"]
 
 				# Nothing renders `content` on this site, but an `excerpt` Jekyll builds from a
 				# post is what the feed falls back to, so the markdown stays where it is.
@@ -52,6 +70,103 @@ module ReduckBlog
 			docs.reject { |doc| doc.data["draft"] }
 				.sort_by { |doc| doc.data["publishedAt"].to_s }
 				.reverse
+		end
+
+		# Stops the build unless the cover is 16/9. The message names the file and the height that
+		# would have been right, so the fix needs no arithmetic from whoever reads it.
+		def check_cover_ratio(doc, slug, hero)
+			return if hero.start_with?("http")
+
+			path = File.join(File.dirname(doc.path), hero)
+			unless File.file?(path)
+				raise Jekyll::Errors::FatalException,
+					"#{slug}: heroImage #{hero.inspect} is not a file beside the post"
+			end
+
+			size = image_size(path)
+			if size.nil?
+				raise Jekyll::Errors::FatalException,
+					"#{slug}: cannot read the size of #{hero} — a cover must be PNG, JPEG or SVG"
+			end
+
+			width, height = size
+			ratio = width.to_f / height
+			return if (ratio - COVER_RATIO).abs <= COVER_TOLERANCE
+
+			raise Jekyll::Errors::FatalException,
+				"#{slug}: #{hero} is #{width}x#{height} (#{format("%.3f", ratio)}), and a cover is " \
+				"16/9 (#{format("%.3f", COVER_RATIO)}). At #{width} wide that is #{(width * 9.0 / 16).round} high."
+		end
+
+		# The intrinsic size, read from the file's own header rather than by shelling out, so the
+		# build needs nothing installed. nil when the format is not one of the three.
+		def image_size(path)
+			case File.extname(path).downcase
+			when ".png" then png_size(path)
+			when ".jpg", ".jpeg" then jpeg_size(path)
+			when ".svg" then svg_size(path)
+			end
+		end
+
+		def png_size(path)
+			head = File.binread(path, 24)
+			return nil unless head && head.byteslice(0, 8) == "\x89PNG\r\n\x1a\n".b
+
+			head.byteslice(16, 8).unpack("N2")
+		end
+
+		# The size sits in a frame header, which follows any number of other segments, so the
+		# segments are walked rather than guessed at.
+		def jpeg_size(path)
+			File.open(path, "rb") do |file|
+				return nil unless file.read(2) == "\xFF\xD8".b
+
+				loop do
+					byte = file.read(1)
+					return nil if byte.nil?
+					next unless byte == "\xFF".b
+
+					marker = file.read(1)
+					return nil if marker.nil?
+
+					code = marker.ord
+					next if [0xD8, 0x01, 0xFF].include?(code) || (0xD0..0xD7).cover?(code)
+
+					length = file.read(2)&.unpack1("n")
+					return nil if length.nil?
+
+					# A start-of-frame marker states the size. C4, C8 and CC share the range and
+					# describe tables, not a frame.
+					if (0xC0..0xCF).cover?(code) && ![0xC4, 0xC8, 0xCC].include?(code)
+						frame = file.read(5)
+						return nil if frame.nil? || frame.bytesize < 5
+
+						height, width = frame.byteslice(1, 4).unpack("n2")
+						return [width, height]
+					end
+
+					file.seek(length - 2, IO::SEEK_CUR)
+				end
+			end
+		end
+
+		# `viewBox` first: it is the drawing's own coordinate space, and it is what decides the
+		# shape when width and height carry units or are absent.
+		def svg_size(path)
+			head = File.read(path, 2048)
+			tag = head[/<svg\b[^>]*>/m]
+			return nil if tag.nil?
+
+			if (box = tag[/viewBox\s*=\s*["\']([^"\']+)["\']/m, 1])
+				numbers = box.split(/[\s,]+/).map(&:to_f)
+				return [numbers[2], numbers[3]] if numbers.length == 4 && numbers[2] > 0 && numbers[3] > 0
+			end
+
+			width = tag[/\bwidth\s*=\s*["\']([\d.]+)/m, 1]&.to_f
+			height = tag[/\bheight\s*=\s*["\']([\d.]+)/m, 1]&.to_f
+			return nil if width.nil? || height.nil? || width <= 0 || height <= 0
+
+			[width, height]
 		end
 
 		def hero_url(site, slug, hero)
@@ -90,4 +205,15 @@ module ReduckBlog
 			!para.start_with?("#", "```", "!", ">", "-", "*", "|", ":::", "::")
 		end
 	end
+end
+
+# Kramdown wraps a fence in `div.highlight` holding a `pre`: a frame that does not scroll around a
+# box that does — the same two parts `CodeBlock.svelte` is built from. Wearing `code-block` here
+# means the fence takes that component's chrome from `site.css` rather than a second copy of it
+# written against `.prose pre`, and it is the frame, not the scrolling `pre`, that the copy button
+# is positioned against.
+Jekyll::Hooks.register :documents, :post_render do |doc|
+	next unless doc.collection.label == "articles"
+
+	doc.output = doc.output.gsub('<div class="highlight">', '<div class="highlight code-block">')
 end
