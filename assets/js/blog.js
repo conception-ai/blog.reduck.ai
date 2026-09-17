@@ -108,23 +108,32 @@
 			'<svg class="icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><rect height="12" rx="2" width="12" x="9" y="9"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>';
 		wrap.appendChild(button);
 
+		// Captured once, before any click can happen — reading the icon back out of the DOM
+		// inside the click handler would, on a second click that lands while the first click's
+		// revert timer is still pending, capture the already-swapped checkmark instead of the
+		// true original and "revert" to it permanently.
+		const svg = button.querySelector("svg");
+		const originalIcon = svg?.innerHTML;
+		let revertTimer = null;
+
 		button.addEventListener("click", async () => {
-			const text = pre.querySelector("code")?.textContent ?? pre.textContent ?? "";
+			const text = (pre.querySelector("code")?.textContent ?? pre.textContent ?? "").trimEnd();
 			try {
 				await navigator.clipboard.writeText(text);
 			} catch {
 				return;
 			}
 
-			const svg = button.querySelector("svg");
-			const before = svg?.innerHTML;
+			// Clear any still-pending revert from an earlier click so overlapping clicks can't race.
+			clearTimeout(revertTimer);
 			if (svg) svg.innerHTML = CHECK_ICON_PATH;
 			button.classList.add("copied");
 			button.setAttribute("aria-label", "Copied");
-			setTimeout(() => {
-				if (svg && before) svg.innerHTML = before;
+			revertTimer = setTimeout(() => {
+				if (svg && originalIcon) svg.innerHTML = originalIcon;
 				button.classList.remove("copied");
 				button.setAttribute("aria-label", "Copy code");
+				revertTimer = null;
 			}, 2000);
 		});
 	}

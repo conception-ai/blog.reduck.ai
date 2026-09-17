@@ -647,7 +647,7 @@ main.article > * {
 	line-height: 1.6;
 	margin: 0 0 28px;
 	overflow-x: auto;
-	padding: 16px 52px 16px 20px;
+	padding: 16px 20px;
 }
 
 .prose pre code {
@@ -718,11 +718,22 @@ main.article > * {
 
 /* ---------------------------------------------------------------- code copy buttons */
 
-/* blog.js wraps every `.prose pre` in this on load, so the button below sits beside the frame
-   rather than inside the box that scrolls — pinned to the corner no matter how far a wide
-   snippet is scrolled. */
+/* blog.js wraps every `.prose pre` in this on load. A flex row gives the button its own
+   reserved column beside the pre instead of floating it over the pre's scrolling content —
+   so it can never sit on top of code text, at any scroll position or viewport width. The
+   wrapper carries the 28px article rhythm that `.prose pre` used to contribute on its own;
+   the pre's own bottom margin is zeroed out here so the gap isn't doubled. */
 .prose .code-copy {
-	position: relative;
+	align-items: flex-start;
+	display: flex;
+	gap: 12px;
+	margin-bottom: 28px;
+}
+
+.prose .code-copy pre {
+	flex: 1;
+	margin-bottom: 0;
+	min-width: 0;
 }
 
 .prose .code-copy-btn {
@@ -732,17 +743,14 @@ main.article > * {
 	border-radius: 6px;
 	color: var(--color-grey-400);
 	display: inline-flex;
+	flex-shrink: 0;
 	height: 28px;
 	justify-content: center;
-	position: absolute;
-	right: 10px;
-	top: 10px;
 	transition:
 		background 200ms,
 		border-color 200ms,
 		color 200ms;
 	width: 28px;
-	z-index: var(--z-foreground);
 }
 
 .prose .code-copy-btn:hover,
