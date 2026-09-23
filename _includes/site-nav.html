@@ -1,8 +1,9 @@
 {%- comment -%}
-  The button leaves for the app: this is a site of its own, so there is no client-side route to
-  take and no session to read — "Open app" asks for /projects, which the app turns into the
-  reader's own project, through sign-in when there is no session yet. Beside it sit the blog's own
-  topics, not the app's product links.
+  Both buttons leave for the app: this is a site of its own, so there is no client-side route to
+  take and no session to read. "Go to Reduck" asks for the marketing site a reader who landed on a
+  post has not seen; "Open app" asks for /projects, which the app turns into the reader's own
+  project, through sign-in when there is no session yet. Beside them sit the blog's own topics,
+  not the app's product links.
 
   A topic has no page of its own: the index filters its grid in the browser, so a link carries the
   topic as a query the index reads back (assets/js/blog.js).
@@ -36,6 +37,9 @@
 	<nav aria-label="User account">
 		<ul>
 			<li>
+				<a class="btn medium btn-ghost" href="{{ site.app_url }}">Go to Reduck</a>
+			</li>
+			<li>
 				<a class="btn medium btn-primary open-app" href="{{ site.app_url }}/projects">
 					{% include icon.html name="objects-column" %}
 					Open app
@@ -51,6 +55,7 @@
 
 <div class="mobile-menu" id="site-menu" data-site-menu hidden>
 	<div class="cta">
+		<a class="btn large btn-ghost" href="{{ site.app_url }}">Go to Reduck</a>
 		<a class="btn large btn-primary open-app" href="{{ site.app_url }}/projects">
 			{% include icon.html name="objects-column" %}
 			Open app
