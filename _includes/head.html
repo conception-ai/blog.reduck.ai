@@ -20,11 +20,41 @@
 <meta content="{{ page_desc | strip_newlines }}" property="og:description" />
 <meta content="{{ page.url | absolute_url }}" property="og:url" />
 <meta content="{{ site.title }}" property="og:site_name" />
-{%- if page.hero_url %}
-<meta content="{{ page.hero_url | absolute_url }}" property="og:image" />
+<meta content="{{ site.locale }}" property="og:locale" />
+{%- comment -%}
+  The picture a link unfurls into: the post's own share card, else its cover, else the site's. A
+  page that offers none is laid out as a line of text beside a favicon, which is what every page
+  without a cover used to get.
+{%- endcomment -%}
+{%- if page.share_url -%}
+	{%- assign og_image = page.share_url -%}
+	{%- assign og_width = page.share_width -%}
+	{%- assign og_height = page.share_height -%}
+	{%- assign og_alt = page.title -%}
+{%- elsif page.hero_url -%}
+	{%- assign og_image = page.hero_url -%}
+	{%- assign og_width = page.hero_width -%}
+	{%- assign og_height = page.hero_height -%}
+	{%- assign og_alt = page.title -%}
+{%- else -%}
+	{%- assign og_image = site.og_image -%}
+	{%- assign og_width = 1200 -%}
+	{%- assign og_height = 630 -%}
+	{%- assign og_alt = site.og_image_alt -%}
 {%- endif %}
+<meta content="{{ og_image | absolute_url }}" property="og:image" />
+{%- comment -%}
+  A card without these is a card a client may lay out small, or not at all, while it decides what
+  it was given. A picture held on another host is not measured at build time and carries none.
+{%- endcomment -%}
+{%- if og_width %}
+<meta content="{{ og_width }}" property="og:image:width" />
+<meta content="{{ og_height }}" property="og:image:height" />
+{%- endif %}
+<meta content="{{ og_alt }}" property="og:image:alt" />
 <meta content="{% if page.layout == 'article' %}article{% else %}website{% endif %}" property="og:type" />
 <meta content="summary_large_image" name="twitter:card" />
+<meta content="{{ site.x_handle }}" name="twitter:site" />
 
 <link href="{{ '/assets/favicon.ico' | relative_url }}" rel="icon" sizes="any" />
 <link href="{{ '/feed.xml' | relative_url }}" rel="alternate" title="{{ site.title }}" type="application/atom+xml" />

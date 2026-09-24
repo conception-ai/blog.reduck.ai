@@ -5,6 +5,7 @@ publishedAt: "2026-09-16"
 category: product
 author: Daniel Huynh
 heroImage: cover.png
+shareImage: share.png
 excerpt: |
     Computer Use lets agents automate sites with no API, but it's unreliable, slow and expensive
     at scale. Reduck MCP gives agents discoverable, reusable scripts that run in your own Chrome.
