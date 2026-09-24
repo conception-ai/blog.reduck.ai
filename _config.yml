@@ -8,10 +8,15 @@ discord_url: https://discord.gg/MPBQWCVTAq
 lang: en
 locale: en_US
 
+# What the home page puts after its own name, in the title bar and on a search result, and what
+# the share card says in its own words. Every other page has a title of its own to say there; only
+# the front of the blog has to borrow one.
+tagline: What we learn building browser infrastructure
+
 # The card a link to a page without a picture of its own unfurls into, drawn at the 1200x630 the
-# head declares for it. A post's own cover takes its place wherever there is one.
+# head declares for it. A post's own cover takes its place wherever there is one. Its alt text is
+# built from the tagline, because it describes a picture that says the tagline.
 og_image: /assets/img/og.png
-og_image_alt: "Reduck blog: what we learn building browser infrastructure"
 
 # The account a card is attributed to on X.
 x_handle: "@ReduckAI"

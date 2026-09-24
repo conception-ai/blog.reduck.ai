@@ -3,7 +3,7 @@
 
 {%- assign page_desc = page.description | default: site.description -%}
 {%- if page.url == "/" -%}
-	{%- assign head_title = site.title -%}
+	{%- assign head_title = site.title | append: " · " | append: site.tagline -%}
 {%- else -%}
 	{%- assign head_title = page.title | append: " · " | append: site.title -%}
 {%- endif -%}
@@ -40,7 +40,7 @@
 	{%- assign og_image = site.og_image -%}
 	{%- assign og_width = 1200 -%}
 	{%- assign og_height = 630 -%}
-	{%- assign og_alt = site.og_image_alt -%}
+	{%- assign og_alt = site.title | append: ": " | append: site.tagline -%}
 {%- endif %}
 <meta content="{{ og_image | absolute_url }}" property="og:image" />
 {%- comment -%}
