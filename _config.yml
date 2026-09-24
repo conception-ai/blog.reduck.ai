@@ -11,7 +11,7 @@ locale: en_US
 # The card a link to a page without a picture of its own unfurls into, drawn at the 1200x630 the
 # head declares for it. A post's own cover takes its place wherever there is one.
 og_image: /assets/img/og.png
-og_image_alt: "Reduck blog: engineering notes from automating the web"
+og_image_alt: "Reduck blog: what we learn building browser infrastructure"
 
 # The account a card is attributed to on X.
 x_handle: "@ReduckAI"
