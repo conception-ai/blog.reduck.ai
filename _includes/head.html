@@ -37,7 +37,7 @@
 	{%- assign og_height = page.hero_height -%}
 	{%- assign og_alt = page.title -%}
 {%- else -%}
-	{%- assign og_image = site.og_image -%}
+	{%- assign og_image = site.data.og_image_url | default: site.og_image -%}
 	{%- assign og_width = 1200 -%}
 	{%- assign og_height = 630 -%}
 	{%- assign og_alt = site.og_image_alt -%}

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "date"
+require "digest"
 
 # What a post needs beyond what markdown gives it: its address, the date a reader sees, the label
 # of the topic it claims, and the opening lines the index shows when it leads.
@@ -38,6 +39,9 @@ module ReduckBlog
 
 			labels = (site.data["categories"] || []).to_h { |c| [c["id"], c["label"]] }
 
+			card = site.config["og_image"]
+			site.data["og_image_url"] = card && stamp(File.join(site.source, card.delete_prefix("/")), card)
+
 			collection.docs.each do |doc|
 				slug = File.basename(File.dirname(doc.relative_path))
 				doc.data["slug"] = slug
@@ -47,7 +51,7 @@ module ReduckBlog
 
 				hero = doc.data["heroImage"]
 				if hero
-					doc.data["hero_url"] = asset_url(site, slug, hero)
+					doc.data["hero_url"] = fingerprint(doc, hero, asset_url(site, slug, hero))
 					doc.data["hero_width"], doc.data["hero_height"] =
 						check_ratio(doc, slug, hero, COVER_RATIO, "16/9")
 				end
@@ -57,7 +61,7 @@ module ReduckBlog
 				# rather choose what is cropped names its own.
 				share = doc.data["shareImage"]
 				if share
-					doc.data["share_url"] = asset_url(site, slug, share)
+					doc.data["share_url"] = fingerprint(doc, share, asset_url(site, slug, share))
 					doc.data["share_width"], doc.data["share_height"] =
 						check_ratio(doc, slug, share, SHARE_RATIO, "1.91/1")
 				end
@@ -191,6 +195,22 @@ module ReduckBlog
 			return nil if width.nil? || height.nil? || width <= 0 || height <= 0
 
 			[width, height]
+		end
+
+		# A card is shared by its address, and a reader that has fetched one keeps it for days.
+		# Redrawing a card at the address of the old one therefore changes nothing anyone sees, so
+		# the address holds eight characters of the file's own digest: a redrawn card is a new
+		# address. A file on another host is left as it is.
+		def fingerprint(doc, file, url)
+			return url if file.start_with?("http", "/")
+
+			stamp(File.join(File.dirname(doc.path), file), url)
+		end
+
+		def stamp(path, url)
+			return url unless File.file?(path)
+
+			"#{url}?v=#{Digest::SHA256.file(path).hexdigest[0, 8]}"
 		end
 
 		# A file beside a post is named in front matter as a bare file name; the index and the head
