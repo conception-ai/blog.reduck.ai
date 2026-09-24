@@ -19,6 +19,11 @@ module ReduckBlog
 	# publish that.
 	COVER_RATIO = 16.0 / 9.0
 
+	# A share card is drawn at 1.91/1, the shape a large card is laid out at by Facebook, LinkedIn,
+	# X and Slack alike. It is not the cover's 16/9, and the difference is why a post may name a
+	# second picture: one file cannot be both without a reader cropping it.
+	SHARE_RATIO = 1200.0 / 630.0
+
 	# Enough room for a rounding to a whole pixel and nothing more: a shape a reader would notice
 	# is a shape that fails.
 	COVER_TOLERANCE = 0.005
@@ -40,12 +45,21 @@ module ReduckBlog
 				doc.data["category_label"] = labels[doc.data["category"]] || doc.data["category"]
 				doc.data["published_on"] = readable(doc.data["publishedAt"])
 
-				# A hero image is written beside the post that uses it, so its source is a bare
-				# file name; the index and the head read it from elsewhere and need the path.
 				hero = doc.data["heroImage"]
 				if hero
-					check_cover_ratio(doc, slug, hero)
-					doc.data["hero_url"] = hero_url(site, slug, hero)
+					doc.data["hero_url"] = asset_url(site, slug, hero)
+					doc.data["hero_width"], doc.data["hero_height"] =
+						check_ratio(doc, slug, hero, COVER_RATIO, "16/9")
+				end
+
+				# The picture a link to the post unfurls into. Where a post names none the cover
+				# stands in, cropped a little by whoever lays the card out; a post that would
+				# rather choose what is cropped names its own.
+				share = doc.data["shareImage"]
+				if share
+					doc.data["share_url"] = asset_url(site, slug, share)
+					doc.data["share_width"], doc.data["share_height"] =
+						check_ratio(doc, slug, share, SHARE_RATIO, "1.91/1")
 				end
 
 				doc.data["excerpt_text"] = excerpt(doc)
@@ -80,30 +94,32 @@ module ReduckBlog
 				.reverse
 		end
 
-		# Stops the build unless the cover is 16/9. The message names the file and the height that
-		# would have been right, so the fix needs no arithmetic from whoever reads it.
-		def check_cover_ratio(doc, slug, hero)
-			return if hero.start_with?("http")
+		# Stops the build unless the picture is the shape it is named for, and answers its size so
+		# the head can declare it. The message names the file and the height that would have been
+		# right, so the fix needs no arithmetic from whoever reads it. A picture held elsewhere cannot be
+		# measured here, so it passes unread and unsized.
+		def check_ratio(doc, slug, file, wanted, label)
+			return if file.start_with?("http")
 
-			path = File.join(File.dirname(doc.path), hero)
+			path = File.join(File.dirname(doc.path), file)
 			unless File.file?(path)
 				raise Jekyll::Errors::FatalException,
-					"#{slug}: heroImage #{hero.inspect} is not a file beside the post"
+					"#{slug}: #{file.inspect} is not a file beside the post"
 			end
 
 			size = image_size(path)
 			if size.nil?
 				raise Jekyll::Errors::FatalException,
-					"#{slug}: cannot read the size of #{hero} — a cover must be PNG, JPEG or SVG"
+					"#{slug}: cannot read the size of #{file} — a picture must be PNG, JPEG or SVG"
 			end
 
 			width, height = size
 			ratio = width.to_f / height
-			return if (ratio - COVER_RATIO).abs <= COVER_TOLERANCE
+			return size if (ratio - wanted).abs <= COVER_TOLERANCE
 
 			raise Jekyll::Errors::FatalException,
-				"#{slug}: #{hero} is #{width}x#{height} (#{format("%.3f", ratio)}), and a cover is " \
-				"16/9 (#{format("%.3f", COVER_RATIO)}). At #{width} wide that is #{(width * 9.0 / 16).round} high."
+				"#{slug}: #{file} is #{width}x#{height} (#{format("%.3f", ratio)}), and it must be " \
+				"#{label} (#{format("%.3f", wanted)}). At #{width} wide that is #{(width / wanted).round} high."
 		end
 
 		# The intrinsic size, read from the file's own header rather than by shelling out, so the
@@ -177,10 +193,12 @@ module ReduckBlog
 			[width, height]
 		end
 
-		def hero_url(site, slug, hero)
-			return hero if hero.start_with?("http", "/")
+		# A file beside a post is named in front matter as a bare file name; the index and the head
+		# read it from elsewhere and need the path. A URL or an absolute path is already one.
+		def asset_url(site, slug, file)
+			return file if file.start_with?("http", "/")
 
-			"#{site.baseurl}/#{slug}/#{hero}"
+			"#{site.baseurl}/#{slug}/#{file}"
 		end
 
 		def readable(published_at)
